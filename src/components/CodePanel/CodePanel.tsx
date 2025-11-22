@@ -110,8 +110,8 @@ const CodePanel = ({ code, language = 'typescript', title }: CodePanelProps) => 
           </button>
         </div>
       </div>
-      <div className="flex-1 overflow-auto bg-[#f5f2f0] dark:bg-[#2d2d2d] relative group">
-        <pre className="!m-0 !p-3 !bg-transparent h-full text-xs font-mono leading-relaxed">
+      <div className="flex-1 overflow-auto bg-[#2d2d2d] relative group">
+        <pre className="!m-0 !p-3 !bg-transparent min-h-full text-xs font-mono leading-relaxed">
           <code ref={codeRef} className={`language-${currentLanguage}`}>{currentCode}</code>
         </pre>
       </div>

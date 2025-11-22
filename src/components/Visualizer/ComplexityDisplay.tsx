@@ -7,7 +7,7 @@ interface ComplexityDisplayProps {
     best: string;
     average: string;
     worst: string;
-  };
+  } | undefined;
   className?: string;
   title?: string;
 }
@@ -60,10 +60,10 @@ const ComplexityDisplay = ({
   const getComplexityColor = (complexity: string) => {
     if (complexity.includes('1')) {return { stroke: '#10b981', name: 'O(1)' };} // green
     if (complexity.includes('log n')) {return { stroke: '#3b82f6', name: 'O(log n)' };} // blue
-    if (complexity.includes('n log n')) {return { stroke: '#f59e0b', name: 'O(n log n)' };} // orange
+    if (complexity.includes('n log n') || complexity.includes('E log V')) {return { stroke: '#f59e0b', name: 'O(n log n)' };} // orange
     if (complexity.includes('n²') || complexity.includes('n^2'))
       {return { stroke: '#ef4444', name: 'O(n²)' };} // red
-    if (complexity.includes('n')) {return { stroke: '#8b5cf6', name: 'O(n)' };} // purple
+    if (complexity.includes('n') || complexity.includes('V + E')) {return { stroke: '#8b5cf6', name: 'O(n)' };} // purple
     return { stroke: '#6b7280', name: complexity };
   };
 
@@ -234,7 +234,7 @@ const ComplexityDisplay = ({
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-                <span className="text-gray-600 dark:text-gray-400">O(n)</span>
+                <span className="text-gray-600 dark:text-gray-400">O(n) / O(V+E)</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
@@ -244,6 +244,9 @@ const ComplexityDisplay = ({
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
                 <span className="text-gray-600 dark:text-gray-400">O(n²)</span>
               </div>
+            </div>
+            <div className="mt-2 text-[9px] text-center text-gray-400 dark:text-gray-500 italic">
+              For graphs: n ≈ V (vertices) + E (edges)
             </div>
           </div>
         </div>
