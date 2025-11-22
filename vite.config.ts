@@ -24,4 +24,14 @@ export default defineConfig({
       '@context': path.resolve(__dirname, './src/context'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['framer-motion'],
+        },
+      },
+    },
+  },
 });
