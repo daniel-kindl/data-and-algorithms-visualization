@@ -259,7 +259,6 @@ The project uses ESLint for linting. Run `npm run lint` before committing.
 
 If you have questions, feel free to:
 
-- Open a [Discussion](https://github.com/daniel-kindl/data-and-algorithms-visualization/discussions) (if enabled)
 - Open an [Issue](https://github.com/daniel-kindl/data-and-algorithms-visualization/issues)
 - Contact the maintainer at daniel.kindl@gmail.com
 
