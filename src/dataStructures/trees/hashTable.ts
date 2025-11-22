@@ -41,7 +41,7 @@ export function* hashTableInsert(
     yield {
       type: 'highlight',
       indices: [],
-      description: `⚠️ Load factor ${loadFactor.toFixed(2)} ≥ 0.7 (consider resizing)`,
+      description: `Load factor ${loadFactor.toFixed(2)} >= 0.7 (consider resizing)`,
     };
   }
 
@@ -69,7 +69,7 @@ export function* hashTableInsert(
       yield {
         type: 'insert',
         indices: [index],
-        description: `✅ Inserted at index ${index}${probes > 0 ? ` after ${probes} probes` : ''}. Size: ${state.size}/${state.capacity}`,
+        description: `Inserted at index ${index}${probes > 0 ? ` after ${probes} probes` : ''}. Size: ${state.size}/${state.capacity}`,
       };
       return;
     }
@@ -82,7 +82,7 @@ export function* hashTableInsert(
       yield {
         type: 'insert',
         indices: [index],
-        description: `✅ Updated key ${key}: ${oldValue} → ${value}`,
+        description: `Updated key ${key}: ${oldValue} -> ${value}`,
       };
       return;
     }
@@ -94,7 +94,7 @@ export function* hashTableInsert(
     yield {
       type: 'compare',
       indices: [index],
-      description: `❌ Collision at index ${index} (occupied by key ${entry.key}). Probing...`,
+      description: `Collision at index ${index} (occupied by key ${entry.key}). Probing...`,
     };
 
     index = (index + 1) % state.capacity;
@@ -109,7 +109,7 @@ export function* hashTableInsert(
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ Table is full (${state.size}/${state.capacity})`,
+    description: `Table is full (${state.size}/${state.capacity})`,
   };
 }
 
@@ -148,7 +148,7 @@ export function* hashTableSearch(state: HashTableState, key: number): Generator<
       yield {
         type: 'highlight',
         indices: [index],
-        description: `❌ Key ${key} not found (empty slot at index ${index})`,
+        description: `Key ${key} not found (empty slot at index ${index})`,
       };
       return;
     }
@@ -157,7 +157,7 @@ export function* hashTableSearch(state: HashTableState, key: number): Generator<
       yield {
         type: 'search',
         indices: [index],
-        description: `✅ Found key ${key} with value ${entry.value} at index ${index}`,
+        description: `Found key ${key} with value ${entry.value} at index ${index}`,
       };
       return;
     }
@@ -169,7 +169,7 @@ export function* hashTableSearch(state: HashTableState, key: number): Generator<
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ Key ${key} not found after ${probes} probes`,
+    description: `Key ${key} not found after ${probes} probes`,
   };
 }
 
@@ -208,7 +208,7 @@ export function* hashTableDelete(state: HashTableState, key: number): Generator<
       yield {
         type: 'highlight',
         indices: [index],
-        description: `❌ Key ${key} not found`,
+        description: `Key ${key} not found`,
       };
       return;
     }
@@ -220,7 +220,7 @@ export function* hashTableDelete(state: HashTableState, key: number): Generator<
       yield {
         type: 'delete',
         indices: [index],
-        description: `✅ Deleted key ${key} (value: ${entry.value}). Size: ${state.size}/${state.capacity}`,
+        description: `Deleted key ${key} (value: ${entry.value}). Size: ${state.size}/${state.capacity}`,
       };
       return;
     }
@@ -232,7 +232,7 @@ export function* hashTableDelete(state: HashTableState, key: number): Generator<
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ Key ${key} not found`,
+    description: `Key ${key} not found`,
   };
 }
 
@@ -270,7 +270,7 @@ export function* hashTableGetKeys(state: HashTableState): Generator<AnimationSte
       }
       return 0;
     }),
-    description: `✅ Keys: [${keys.join(', ')}] (${keys.length} total)`,
+    description: `Keys: [${keys.join(', ')}] (${keys.length} total)`,
   };
 }
 
@@ -290,19 +290,19 @@ export function* hashTableLoadFactor(state: HashTableState): Generator<Animation
     yield {
       type: 'sorted',
       indices: [],
-      description: '✅ Good load factor (< 0.5)',
+      description: 'Good load factor (< 0.5)',
     };
   } else if (loadFactor < 0.7) {
     yield {
       type: 'active',
       indices: [],
-      description: '⚠️ Moderate load factor (0.5-0.7)',
+      description: 'Moderate load factor (0.5-0.7)',
     };
   } else {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ High load factor (≥ 0.7) - consider resizing',
+      description: 'High load factor (>= 0.7) - consider resizing',
     };
   }
 }
@@ -325,7 +325,7 @@ export function* hashTableClear(state: HashTableState): Generator<AnimationStep>
   yield {
     type: 'delete',
     indices: [],
-    description: `✅ Cleared ${oldSize} entries. Table reset.`,
+    description: `Cleared ${oldSize} entries. Table reset.`,
   };
 }
 

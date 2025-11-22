@@ -26,7 +26,7 @@ export function* bstInsert(
     yield {
       type: 'insert',
       indices: [0],
-      description: `✅ ${value} is now the root. Tree size: ${nodes.size}`,
+      description: `${value} is now the root. Tree size: ${nodes.size}`,
       newRoot: newNodeId,
       newNodeId,
     };
@@ -56,7 +56,7 @@ export function* bstInsert(
         type: 'highlight',
         indices: [0],
         nodeIds: [current],
-        description: `❌ ${value} already exists in BST (no duplicates allowed)`,
+        description: `${value} already exists in BST (no duplicates allowed)`,
       };
       return;
     }
@@ -103,7 +103,7 @@ export function* bstInsert(
     type: 'insert',
     indices: [0],
     nodeIds: [newNodeId],
-    description: `✅ Inserted ${value} as ${isLeftChild ? 'left' : 'right'} child. Tree size: ${nodes.size}`,
+    description: `Inserted ${value} as ${isLeftChild ? 'left' : 'right'} child. Tree size: ${nodes.size}`,
     newNodeId,
   };
 }
@@ -120,7 +120,7 @@ export function* bstSearch(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -152,7 +152,7 @@ export function* bstSearch(
         type: 'search',
         indices: [0],
         nodeIds: [current],
-        description: `✅ Found ${target} in ${steps} steps`,
+        description: `Found ${target} in ${steps} steps`,
       };
       return;
     }
@@ -183,7 +183,7 @@ export function* bstSearch(
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ ${target} not found after ${steps} steps`,
+    description: `${target} not found after ${steps} steps`,
   };
 }
 
@@ -198,7 +198,7 @@ export function* bstFindMin(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -227,7 +227,7 @@ export function* bstFindMin(
         type: 'search',
         indices: [0],
         nodeIds: [current],
-        description: `✅ Minimum value: ${currentNode.value}`,
+        description: `Minimum value: ${currentNode.value}`,
       };
       return;
     }
@@ -254,7 +254,7 @@ export function* bstFindMax(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -283,7 +283,7 @@ export function* bstFindMax(
         type: 'search',
         indices: [0],
         nodeIds: [current],
-        description: `✅ Maximum value: ${currentNode.value}`,
+        description: `Maximum value: ${currentNode.value}`,
       };
       return;
     }
@@ -310,7 +310,7 @@ export function* bstValidate(
     yield {
       type: 'highlight',
       indices: [],
-      description: '✅ Empty tree is a valid BST',
+      description: 'Empty tree is a valid BST',
     };
     return;
   }
@@ -335,7 +335,7 @@ export function* bstValidate(
       type: 'compare',
       indices: [0],
       nodeIds: [nodeId],
-      description: `Checking ${node.value}: must be > ${min === -Infinity ? '-∞' : min} and < ${max === Infinity ? '∞' : max}`,
+      description: `Checking ${node.value}: must be > ${min === -Infinity ? '-Infinity' : min} and < ${max === Infinity ? 'Infinity' : max}`,
     };
 
     if (node.value <= min || node.value >= max) {
@@ -343,7 +343,7 @@ export function* bstValidate(
         type: 'highlight',
         indices: [0],
         nodeIds: [nodeId],
-        description: `❌ Invalid: ${node.value} violates BST property`,
+        description: `Invalid: ${node.value} violates BST property`,
         valid: false,
       };
       return;
@@ -358,7 +358,7 @@ export function* bstValidate(
   yield {
     type: 'sorted',
     indices: [0],
-    description: '✅ Valid BST',
+    description: 'Valid BST',
   };
 }
 

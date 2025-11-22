@@ -239,7 +239,7 @@ const SortingPage = () => {
 
       {/* Algorithm Selector and Input Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-sm">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-sm flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
               <svg
@@ -258,7 +258,7 @@ const SortingPage = () => {
               Select Algorithm
             </h2>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-6">
             {sortingAlgorithms.map((algo) => (
               <button
                 key={algo.id}
@@ -272,6 +272,24 @@ const SortingPage = () => {
                 {algo.name}
               </button>
             ))}
+          </div>
+
+          <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              {selectedAlgorithm.name}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+              {selectedAlgorithm.info.description}
+            </p>
+            
+            <div className="grid grid-cols-1 gap-3 text-xs">
+              <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                <span className="font-semibold block mb-1 text-gray-500 dark:text-gray-400">Time Complexity (Average)</span>
+                <div className="font-mono font-medium text-gray-900 dark:text-gray-200">
+                  {selectedAlgorithm.info.complexity.time.average}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -287,20 +305,6 @@ const SortingPage = () => {
           explanation={
             <div className="space-y-2">
               <p>{selectedAlgorithm.info.description}</p>
-              <div className="grid grid-cols-2 gap-4 mt-2 text-xs">
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
-                  <span className="font-semibold block mb-1">Time Complexity:</span>
-                  <div className="grid grid-cols-2 gap-1">
-                    <span>Best:</span> <span className="font-mono">{selectedAlgorithm.info.complexity.time.best}</span>
-                    <span>Average:</span> <span className="font-mono">{selectedAlgorithm.info.complexity.time.average}</span>
-                    <span>Worst:</span> <span className="font-mono">{selectedAlgorithm.info.complexity.time.worst}</span>
-                  </div>
-                </div>
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
-                  <span className="font-semibold block mb-1">Space Complexity:</span>
-                  <span className="font-mono">{selectedAlgorithm.info.complexity.space}</span>
-                </div>
-              </div>
             </div>
           }
         >
@@ -320,12 +324,7 @@ const SortingPage = () => {
 
         <ComplexityDisplay
           complexity={selectedAlgorithm.info.complexity}
-          operationsCount={operationsCount}
-          arraySize={data.length}
-          currentStep={currentStep}
-          totalSteps={totalSteps}
-          elapsedTime={elapsedTime}
-          isPlaying={isPlaying}
+          timeComplexityDetails={selectedAlgorithm.info.timeComplexityDetails}
           title="Complexity Analysis"
         />
 

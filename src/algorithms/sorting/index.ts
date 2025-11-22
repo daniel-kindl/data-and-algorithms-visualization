@@ -5,7 +5,7 @@ export interface SortingAlgorithm {
   name: string;
   generator: (arr: number[]) => Generator<AnimationStep>;
   info: AlgorithmInfo;
-  code: string;
+  code: Record<string, string>;
 }
 
 import * as bubbleSort from './bubbleSort';

@@ -38,7 +38,7 @@ export function* heapInsert(heap: number[], value: number): Generator<AnimationS
       yield {
         type: 'sorted',
         indices: [currentIndex],
-        description: `✅ Min-heap property satisfied. Heap size: ${heap.length}`,
+        description: `Min-heap property satisfied. Heap size: ${heap.length}`,
       };
       break;
     }
@@ -59,7 +59,7 @@ export function* heapInsert(heap: number[], value: number): Generator<AnimationS
     yield {
       type: 'sorted',
       indices: [0],
-      description: `✅ ${heap[0]} is now the root. Heap size: ${heap.length}`,
+      description: `${heap[0]} is now the root. Heap size: ${heap.length}`,
     };
   }
 }
@@ -73,7 +73,7 @@ export function* heapExtractMin(heap: number[]): Generator<AnimationStep> {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Heap is empty',
+      description: 'Heap is empty',
     };
     return;
   }
@@ -91,7 +91,7 @@ export function* heapExtractMin(heap: number[]): Generator<AnimationStep> {
     yield {
       type: 'delete',
       indices: [],
-      description: `✅ Removed ${minValue}. Heap is now empty`,
+      description: `Removed ${minValue}. Heap is now empty`,
     };
     return;
   }
@@ -151,7 +151,7 @@ export function* heapExtractMin(heap: number[]): Generator<AnimationStep> {
       yield {
         type: 'sorted',
         indices: [currentIndex],
-        description: `✅ Min-heap property restored. Heap size: ${heap.length}`,
+        description: `Min-heap property restored. Heap size: ${heap.length}`,
       };
       break;
     }
@@ -177,7 +177,7 @@ export function* heapify(heap: number[]): Generator<AnimationStep> {
     yield {
       type: 'sorted',
       indices: [],
-      description: '✅ Array is already a valid heap',
+      description: 'Array is already a valid heap',
     };
     return;
   }
@@ -204,7 +204,7 @@ export function* heapify(heap: number[]): Generator<AnimationStep> {
   yield {
     type: 'sorted',
     indices: Array.from({ length: heap.length }, (_, i) => i),
-    description: `✅ Min-heap built successfully. Root: ${heap[0]}`,
+    description: `Min-heap built successfully. Root: ${heap[0]}`,
   };
 }
 
@@ -257,7 +257,7 @@ export function* heapPeek(heap: number[]): Generator<AnimationStep> {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Heap is empty',
+      description: 'Heap is empty',
     };
     return;
   }
@@ -287,7 +287,7 @@ export function* heapIsEmpty(heap: number[]): Generator<AnimationStep> {
   yield {
     type: 'highlight',
     indices: [],
-    description: heap.length === 0 ? '✅ Heap is empty' : `❌ Heap has ${heap.length} elements`,
+    description: heap.length === 0 ? 'Heap is empty' : `Heap has ${heap.length} elements`,
   };
 }
 
@@ -300,7 +300,7 @@ export function* heapSort(heap: number[]): Generator<AnimationStep> {
     yield {
       type: 'sorted',
       indices: [],
-      description: '✅ Array is already sorted',
+      description: 'Array is already sorted',
     };
     return;
   }
@@ -344,7 +344,7 @@ export function* heapSort(heap: number[]): Generator<AnimationStep> {
   yield {
     type: 'sorted',
     indices: Array.from({ length: heap.length }, (_, i) => i),
-    description: '✅ Array sorted successfully',
+    description: 'Array sorted successfully',
   };
 }
 

@@ -13,7 +13,7 @@ export function* arrayInsert(
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Invalid index ${index}. Must be between 0 and ${arr.length}`,
+      description: `Invalid index ${index}. Must be between 0 and ${arr.length}`,
     };
     return;
   }
@@ -41,7 +41,7 @@ export function* arrayInsert(
   yield {
     type: 'insert',
     indices: [index],
-    description: `✅ Inserted ${value} at index ${index}`,
+    description: `Inserted ${value} at index ${index}`,
   };
 
   yield {
@@ -60,7 +60,7 @@ export function* arrayDelete(arr: number[], index: number): Generator<AnimationS
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Invalid index ${index}. Must be between 0 and ${arr.length - 1}`,
+      description: `Invalid index ${index}. Must be between 0 and ${arr.length - 1}`,
     };
     return;
   }
@@ -88,7 +88,7 @@ export function* arrayDelete(arr: number[], index: number): Generator<AnimationS
   yield {
     type: 'delete',
     indices: [],
-    description: `✅ Deleted ${deletedValue} from index ${index}`,
+    description: `Deleted ${deletedValue} from index ${index}`,
   };
 
   yield {
@@ -120,7 +120,7 @@ export function* arraySearch(arr: number[], target: number): Generator<Animation
       yield {
         type: 'search',
         indices: [i],
-        description: `✅ Found ${target} at index ${i}`,
+        description: `Found ${target} at index ${i}`,
       };
       return;
     }
@@ -129,7 +129,7 @@ export function* arraySearch(arr: number[], target: number): Generator<Animation
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ ${target} not found in array`,
+    description: `${target} not found in array`,
   };
 }
 
@@ -142,7 +142,7 @@ export function* arrayAccess(arr: number[], index: number): Generator<AnimationS
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Invalid index ${index}. Must be between 0 and ${arr.length - 1}`,
+      description: `Invalid index ${index}. Must be between 0 and ${arr.length - 1}`,
     };
     return;
   }
@@ -156,7 +156,7 @@ export function* arrayAccess(arr: number[], index: number): Generator<AnimationS
   yield {
     type: 'search',
     indices: [index],
-    description: `✅ arr[${index}] = ${arr[index]} (Direct access in O(1) time)`,
+    description: `arr[${index}] = ${arr[index]} (Direct access in O(1) time)`,
   };
 }
 
@@ -173,7 +173,7 @@ export function* arrayUpdate(
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Invalid index ${index}. Must be between 0 and ${arr.length - 1}`,
+      description: `Invalid index ${index}. Must be between 0 and ${arr.length - 1}`,
     };
     return;
   }
@@ -183,7 +183,7 @@ export function* arrayUpdate(
   yield {
     type: 'highlight',
     indices: [index],
-    description: `Updating index ${index}: ${oldValue} → ${newValue}`,
+    description: `Updating index ${index}: ${oldValue} -> ${newValue}`,
   };
 
   arr[index] = newValue;
@@ -191,7 +191,7 @@ export function* arrayUpdate(
   yield {
     type: 'insert',
     indices: [index],
-    description: `✅ Updated index ${index} to ${newValue}`,
+    description: `Updated index ${index} to ${newValue}`,
   };
 }
 

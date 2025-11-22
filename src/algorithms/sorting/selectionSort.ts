@@ -12,10 +12,16 @@ export const selectionSortInfo: AlgorithmInfo = {
     space: 'O(1)',
   },
   description:
-    'Selection Sort divides the array into a sorted and unsorted region. It repeatedly selects the smallest element from the unsorted region and moves it to the end of the sorted region.',
+    'Selection Sort divides the input list into two parts: a sorted sublist of items which is built up from left to right at the front (left) of the list and a sublist of the remaining unsorted items that occupy the rest of the list.',
+  timeComplexityDetails: {
+    best: 'Even if the array is sorted, the algorithm must scan the remaining unsorted portion to find the minimum element.',
+    average: 'Requires scanning the unsorted portion for every position, resulting in quadratic time regardless of data distribution.',
+    worst: 'Same as best and average cases; the algorithm always performs the same number of comparisons.',
+  },
 };
 
-export const selectionSortCode = `function selectionSort(arr: number[]): number[] {
+export const selectionSortCode = {
+  typescript: `function selectionSort(arr: number[]): number[] {
   const n = arr.length;
   
   for (let i = 0; i < n - 1; i++) {
@@ -35,7 +41,89 @@ export const selectionSortCode = `function selectionSort(arr: number[]): number[
   }
   
   return arr;
-}`;
+}`,
+  python: `def selection_sort(arr):
+    n = len(arr)
+    
+    for i in range(n - 1):
+        min_index = i
+        
+        # Find the minimum element in unsorted array
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+                
+        # Swap the minimum with the first element
+        if min_index != i:
+            arr[i], arr[min_index] = arr[min_index], arr[i]
+            
+    return arr`,
+  java: `public class SelectionSort {
+    public static void selectionSort(int[] arr) {
+        int n = arr.length;
+        
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            
+            // Find the minimum element in unsorted array
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            
+            // Swap the minimum with the first element
+            if (minIndex != i) {
+                int temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+            }
+        }
+    }
+}`,
+  csharp: `public class SelectionSort {
+    public static void Sort(int[] arr) {
+        int n = arr.Length;
+        
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            
+            // Find the minimum element in unsorted array
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            
+            // Swap the minimum with the first element
+            if (minIndex != i) {
+                int temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+            }
+        }
+    }
+}`,
+  cpp: `void selectionSort(std::vector<int>& arr) {
+    int n = arr.size();
+    
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        
+        // Find the minimum element in unsorted array
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        
+        // Swap the minimum with the first element
+        if (minIndex != i) {
+            std::swap(arr[i], arr[minIndex]);
+        }
+    }
+}`
+};
 
 export function* selectionSort(arr: number[]): Generator<AnimationStep> {
   const n = arr.length;

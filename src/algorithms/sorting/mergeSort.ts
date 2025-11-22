@@ -12,10 +12,16 @@ export const mergeSortInfo: AlgorithmInfo = {
     space: 'O(n)',
   },
   description:
-    'Merge Sort is a divide-and-conquer algorithm that divides the array into two halves, recursively sorts them, and then merges the two sorted halves.',
+    'Merge Sort is a divide and conquer algorithm that divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.',
+  timeComplexityDetails: {
+    best: 'The algorithm always divides the array into halves and merges them, regardless of the initial order.',
+    average: 'Consistent performance. The recurrence relation T(n) = 2T(n/2) + O(n) always solves to O(n log n).',
+    worst: 'Same as best and average cases. Merge Sort guarantees O(n log n) performance for any input.',
+  },
 };
 
-export const mergeSortCode = `function mergeSort(arr: number[]): number[] {
+export const mergeSortCode = {
+  typescript: `function mergeSort(arr: number[]): number[] {
   if (arr.length <= 1) return arr;
   
   const mid = Math.floor(arr.length / 2);
@@ -38,7 +44,128 @@ function merge(left: number[], right: number[]): number[] {
   }
   
   return result.concat(left.slice(i)).concat(right.slice(j));
-}`;
+}`,
+  python: `def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+        
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+            
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result`,
+  java: `public class MergeSort {
+    public static void mergeSort(int[] arr, int n) {
+        if (n < 2) return;
+        
+        int mid = n / 2;
+        int[] left = new int[mid];
+        int[] right = new int[n - mid];
+        
+        for (int i = 0; i < mid; i++) left[i] = arr[i];
+        for (int i = mid; i < n; i++) right[i - mid] = arr[i];
+        
+        mergeSort(left, mid);
+        mergeSort(right, n - mid);
+        
+        merge(arr, left, right, mid, n - mid);
+    }
+    
+    public static void merge(int[] arr, int[] left, int[] right, int l, int r) {
+        int i = 0, j = 0, k = 0;
+        
+        while (i < l && j < r) {
+            if (left[i] <= right[j]) {
+                arr[k++] = left[i++];
+            } else {
+                arr[k++] = right[j++];
+            }
+        }
+        
+        while (i < l) arr[k++] = left[i++];
+        while (j < r) arr[k++] = right[j++];
+    }
+}`,
+  csharp: `public class MergeSort {
+    public static void Sort(int[] arr) {
+        if (arr.Length < 2) return;
+        
+        int mid = arr.Length / 2;
+        int[] left = new int[mid];
+        int[] right = new int[arr.Length - mid];
+        
+        Array.Copy(arr, 0, left, 0, mid);
+        Array.Copy(arr, mid, right, 0, arr.Length - mid);
+        
+        Sort(left);
+        Sort(right);
+        
+        Merge(arr, left, right);
+    }
+    
+    private static void Merge(int[] arr, int[] left, int[] right) {
+        int i = 0, j = 0, k = 0;
+        
+        while (i < left.Length && j < right.Length) {
+            if (left[i] <= right[j]) {
+                arr[k++] = left[i++];
+            } else {
+                arr[k++] = right[j++];
+            }
+        }
+        
+        while (i < left.Length) arr[k++] = left[i++];
+        while (j < right.Length) arr[k++] = right[j++];
+    }
+}`,
+  cpp: `void merge(std::vector<int>& arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    
+    std::vector<int> L(n1), R(n2);
+    
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+    
+    int i = 0, j = 0, k = left;
+    
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k++] = L[i++];
+        } else {
+            arr[k++] = R[j++];
+        }
+    }
+    
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+
+void mergeSort(std::vector<int>& arr, int left, int right) {
+    if (left >= right) return;
+    
+    int mid = left + (right - left) / 2;
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid + 1, right);
+    merge(arr, left, mid, right);
+}`
+};
 
 export function* mergeSort(arr: number[]): Generator<AnimationStep> {
   yield* mergeSortHelper(arr, 0, arr.length - 1);

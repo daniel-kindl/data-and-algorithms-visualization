@@ -30,6 +30,11 @@ export interface AlgorithmInfo {
   category: 'sorting' | 'searching' | 'graph' | 'tree' | 'dp' | 'data-structure';
   complexity: AlgorithmComplexity;
   description: string;
+  timeComplexityDetails?: {
+    best: string;
+    average: string;
+    worst: string;
+  };
 }
 
 export type AnimationSpeed = number;

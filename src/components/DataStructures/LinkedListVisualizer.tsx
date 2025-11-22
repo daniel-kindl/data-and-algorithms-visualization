@@ -172,7 +172,7 @@ const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({
                       }}
                     >
                       <div className="text-lg">{node.value}</div>
-                      <div className="text-[10px] opacity-75 mt-0.5">{node.next ? '→' : 'null'}</div>
+                      <div className="text-[10px] opacity-75 mt-0.5">{node.next ? '->' : 'null'}</div>
                     </div>
 
                     {/* Position label */}

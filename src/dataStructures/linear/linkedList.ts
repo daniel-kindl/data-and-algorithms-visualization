@@ -37,14 +37,14 @@ export function* linkedListInsertHead(
     yield {
       type: 'active',
       indices: [0],
-      description: `✅ New head points to previous head. List size: ${nodes.size}`,
+      description: `New head points to previous head. List size: ${nodes.size}`,
       newHead: newNodeId,
     };
   } else {
     yield {
       type: 'active',
       indices: [0],
-      description: `✅ ${value} is now the head (first node). List size: ${nodes.size}`,
+      description: `${value} is now the head (first node). List size: ${nodes.size}`,
       newHead: newNodeId,
     };
   }
@@ -81,7 +81,7 @@ export function* linkedListInsertTail(
     yield {
       type: 'insert',
       indices: [0],
-      description: `✅ ${value} is now the head (first node). List size: ${nodes.size}`,
+      description: `${value} is now the head (first node). List size: ${nodes.size}`,
       newHead: newNodeId,
       newTail: newNodeId,
     };
@@ -109,7 +109,7 @@ export function* linkedListInsertTail(
       yield {
         type: 'insert',
         indices: [position + 1],
-        description: `✅ Inserted ${value} at tail (position ${position + 1}). List size: ${nodes.size}`,
+        description: `Inserted ${value} at tail (position ${position + 1}). List size: ${nodes.size}`,
         newTail: newNodeId,
       };
       break;
@@ -132,7 +132,7 @@ export function* linkedListDeleteHead(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Cannot delete. List is empty',
+      description: 'Cannot delete. List is empty',
     };
     return;
   }
@@ -161,14 +161,14 @@ export function* linkedListDeleteHead(
     yield {
       type: 'active',
       indices: [0],
-      description: `✅ Deleted ${headNode.value}. New head: ${newHeadNode?.value}. List size: ${nodes.size}`,
+      description: `Deleted ${headNode.value}. New head: ${newHeadNode?.value}. List size: ${nodes.size}`,
       newHead,
     };
   } else {
     yield {
       type: 'highlight',
       indices: [],
-      description: `✅ Deleted ${headNode.value}. List is now empty`,
+      description: `Deleted ${headNode.value}. List is now empty`,
       newHead: null,
     };
   }
@@ -186,7 +186,7 @@ export function* linkedListDeleteTail(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Cannot delete. List is empty',
+      description: 'Cannot delete. List is empty',
     };
     return;
   }
@@ -213,7 +213,7 @@ export function* linkedListDeleteTail(
     yield {
       type: 'highlight',
       indices: [],
-      description: `✅ Deleted ${headNode.value}. List is now empty`,
+      description: `Deleted ${headNode.value}. List is now empty`,
       newHead: null,
     };
     return;
@@ -261,7 +261,7 @@ export function* linkedListDeleteTail(
       yield {
         type: 'active',
         indices: [position - 1],
-        description: `✅ Deleted ${currentNode.value}. List size: ${nodes.size}`,
+        description: `Deleted ${currentNode.value}. List size: ${nodes.size}`,
       };
       break;
     }
@@ -285,7 +285,7 @@ export function* linkedListSearch(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ List is empty',
+      description: 'List is empty',
     };
     return;
   }
@@ -313,7 +313,7 @@ export function* linkedListSearch(
       yield {
         type: 'search',
         indices: [position],
-        description: `✅ Found ${target} at position ${position}`,
+        description: `Found ${target} at position ${position}`,
       };
       return;
     }
@@ -325,7 +325,7 @@ export function* linkedListSearch(
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ ${target} not found in list`,
+    description: `${target} not found in list`,
   };
 }
 
@@ -343,7 +343,7 @@ export function* linkedListInsertAt(
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Invalid position ${position}`,
+      description: `Invalid position ${position}`,
     };
     return;
   }
@@ -358,7 +358,7 @@ export function* linkedListInsertAt(
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Cannot insert at position ${position}. List is empty`,
+      description: `Cannot insert at position ${position}. List is empty`,
     };
     return;
   }
@@ -381,7 +381,7 @@ export function* linkedListInsertAt(
       yield {
         type: 'highlight',
         indices: [],
-        description: `❌ Position ${position} is out of bounds`,
+        description: `Position ${position} is out of bounds`,
       };
       return;
     }
@@ -416,7 +416,7 @@ export function* linkedListInsertAt(
   yield {
     type: 'insert',
     indices: [position],
-    description: `✅ Inserted ${value} at position ${position}. List size: ${nodes.size}`,
+    description: `Inserted ${value} at position ${position}. List size: ${nodes.size}`,
   };
 }
 
@@ -439,7 +439,7 @@ export function* linkedListIsEmpty(
   yield {
     type: isEmpty ? 'highlight' : 'search',
     indices: isEmpty ? [] : [0],
-    description: `✅ List is ${isEmpty ? 'EMPTY' : 'NOT EMPTY'} (size: ${nodes.size})`,
+    description: `List is ${isEmpty ? 'EMPTY' : 'NOT EMPTY'} (size: ${nodes.size})`,
   };
 }
 
@@ -455,7 +455,7 @@ export function* linkedListSize(
     yield {
       type: 'highlight',
       indices: [],
-      description: '✅ List size: 0 (empty)',
+      description: 'List size: 0 (empty)',
     };
     return;
   }
@@ -482,7 +482,7 @@ export function* linkedListSize(
   yield {
     type: 'search',
     indices,
-    description: `✅ List size: ${nodes.size} element${nodes.size !== 1 ? 's' : ''}`,
+    description: `List size: ${nodes.size} element${nodes.size !== 1 ? 's' : ''}`,
   };
 }
 

@@ -13,7 +13,7 @@ export function* queueEnqueue(
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Queue is full! Cannot enqueue ${value} (capacity: ${capacity})`,
+      description: `Queue is full! Cannot enqueue ${value} (capacity: ${capacity})`,
     };
     return;
   }
@@ -30,7 +30,7 @@ export function* queueEnqueue(
   yield {
     type: 'insert',
     indices: [rearIndex],
-    description: `✅ Enqueued ${value}. Queue size: ${queue.length}`,
+    description: `Enqueued ${value}. Queue size: ${queue.length}`,
   };
 
   if (queue.length === 1) {
@@ -57,7 +57,7 @@ export function* queueDequeue(queue: number[]): Generator<AnimationStep> {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Queue is empty! Cannot dequeue',
+      description: 'Queue is empty! Cannot dequeue',
     };
     return;
   }
@@ -91,13 +91,13 @@ export function* queueDequeue(queue: number[]): Generator<AnimationStep> {
     yield {
       type: 'active',
       indices: [0],
-      description: `✅ Dequeued ${dequeuedValue}. New front: ${queue[0]}. Queue size: ${queue.length}`,
+      description: `Dequeued ${dequeuedValue}. New front: ${queue[0]}. Queue size: ${queue.length}`,
     };
   } else {
     yield {
       type: 'highlight',
       indices: [],
-      description: `✅ Dequeued ${dequeuedValue}. Queue is now empty`,
+      description: `Dequeued ${dequeuedValue}. Queue is now empty`,
     };
   }
 }
@@ -111,7 +111,7 @@ export function* queuePeek(queue: number[]): Generator<AnimationStep> {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Cannot peek. Queue is empty',
+      description: 'Cannot peek. Queue is empty',
     };
     return;
   }
@@ -127,7 +127,7 @@ export function* queuePeek(queue: number[]): Generator<AnimationStep> {
   yield {
     type: 'search',
     indices: [0],
-    description: `✅ Front element is ${frontValue}. Queue size: ${queue.length}`,
+    description: `Front element is ${frontValue}. Queue size: ${queue.length}`,
   };
 }
 
@@ -140,7 +140,7 @@ export function* queueSearch(queue: number[], target: number): Generator<Animati
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Queue is empty',
+      description: 'Queue is empty',
     };
     return;
   }
@@ -163,7 +163,7 @@ export function* queueSearch(queue: number[], target: number): Generator<Animati
       yield {
         type: 'search',
         indices: [i],
-        description: `✅ Found ${target} at position ${i + 1} from front`,
+        description: `Found ${target} at position ${i + 1} from front`,
       };
       return;
     }
@@ -172,7 +172,7 @@ export function* queueSearch(queue: number[], target: number): Generator<Animati
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ ${target} not found in queue`,
+    description: `${target} not found in queue`,
   };
 }
 
@@ -185,7 +185,7 @@ export function* queueRear(queue: number[]): Generator<AnimationStep> {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Cannot get rear. Queue is empty',
+      description: 'Cannot get rear. Queue is empty',
     };
     return;
   }
@@ -202,7 +202,7 @@ export function* queueRear(queue: number[]): Generator<AnimationStep> {
   yield {
     type: 'search',
     indices: [rearIndex],
-    description: `✅ Rear element is ${rearValue}. Queue size: ${queue.length}`,
+    description: `Rear element is ${rearValue}. Queue size: ${queue.length}`,
   };
 }
 
@@ -222,7 +222,7 @@ export function* queueIsEmpty(queue: number[]): Generator<AnimationStep> {
   yield {
     type: isEmpty ? 'highlight' : 'search',
     indices: isEmpty ? [] : [0, queue.length - 1],
-    description: `✅ Queue is ${isEmpty ? 'EMPTY' : 'NOT EMPTY'} (size: ${queue.length})`,
+    description: `Queue is ${isEmpty ? 'EMPTY' : 'NOT EMPTY'} (size: ${queue.length})`,
   };
 }
 
@@ -240,7 +240,7 @@ export function* queueSize(queue: number[]): Generator<AnimationStep> {
   yield {
     type: 'search',
     indices: queue.length > 0 ? Array.from({ length: queue.length }, (_, i) => i) : [],
-    description: `✅ Queue size: ${queue.length} element${queue.length !== 1 ? 's' : ''}`,
+    description: `Queue size: ${queue.length} element${queue.length !== 1 ? 's' : ''}`,
   };
 }
 

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 const Home = () => {
   const containerVariants = {
@@ -37,7 +37,7 @@ const Home = () => {
           transition={{ duration: 0.6 }}
           className="inline-block mb-4 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-blue-600 dark:text-blue-300 text-sm font-medium"
         >
-          🚀 Interactive Learning Platform
+          Interactive Learning Platform
         </motion.div>
 
         <motion.h1 
@@ -239,7 +239,7 @@ const Home = () => {
             },
             {
               title: "Complexity Analysis",
-              desc: "Learn about Time and Space complexity. Each algorithm comes with detailed Big O notation analysis for best, average, and worst cases.",
+              desc: "Learn about Time complexity. Each algorithm comes with detailed Big O notation analysis for best, average, and worst cases.",
               icon: (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               ),

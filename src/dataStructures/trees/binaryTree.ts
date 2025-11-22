@@ -34,7 +34,7 @@ export function* binaryTreeInsert(
     yield {
       type: 'insert',
       indices: [0],
-      description: `✅ ${value} is now the root. Tree size: ${nodes.size}`,
+      description: `${value} is now the root. Tree size: ${nodes.size}`,
       newRoot: newNodeId,
       newNodeId,
     };
@@ -72,7 +72,7 @@ export function* binaryTreeInsert(
         type: 'insert',
         indices: [position * 2 + 1],
         nodeIds: [newNodeId],
-        description: `✅ Inserted ${value} as left child of ${current.value}. Tree size: ${nodes.size}`,
+        description: `Inserted ${value} as left child of ${current.value}. Tree size: ${nodes.size}`,
         newNodeId,
       };
       return;
@@ -88,7 +88,7 @@ export function* binaryTreeInsert(
         type: 'insert',
         indices: [position * 2 + 2],
         nodeIds: [newNodeId],
-        description: `✅ Inserted ${value} as right child of ${current.value}. Tree size: ${nodes.size}`,
+        description: `Inserted ${value} as right child of ${current.value}. Tree size: ${nodes.size}`,
         newNodeId,
       };
       return;
@@ -113,7 +113,7 @@ export function* binaryTreeInOrder(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -121,7 +121,7 @@ export function* binaryTreeInOrder(
   yield {
     type: 'highlight',
     indices: [],
-    description: 'Starting In-Order Traversal (Left → Root → Right)',
+    description: 'Starting In-Order Traversal (Left -> Root -> Right)',
   };
 
   const result: number[] = [];
@@ -173,7 +173,7 @@ export function* binaryTreeInOrder(
   yield {
     type: 'sorted',
     indices: Array.from({ length: result.length }, (_, i) => i),
-    description: `✅ In-Order Complete: [${result.join(', ')}]`,
+    description: `In-Order Complete: [${result.join(', ')}]`,
   };
 }
 
@@ -189,7 +189,7 @@ export function* binaryTreePreOrder(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -197,7 +197,7 @@ export function* binaryTreePreOrder(
   yield {
     type: 'highlight',
     indices: [],
-    description: 'Starting Pre-Order Traversal (Root → Left → Right)',
+    description: 'Starting Pre-Order Traversal (Root -> Left -> Right)',
   };
 
   const result: number[] = [];
@@ -234,7 +234,7 @@ export function* binaryTreePreOrder(
   yield {
     type: 'sorted',
     indices: Array.from({ length: result.length }, (_, i) => i),
-    description: `✅ Pre-Order Complete: [${result.join(', ')}]`,
+    description: `e-Order Complete: [${result.join(', ')}]`,
   };
 }
 
@@ -250,7 +250,7 @@ export function* binaryTreePostOrder(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -258,7 +258,7 @@ export function* binaryTreePostOrder(
   yield {
     type: 'highlight',
     indices: [],
-    description: 'Starting Post-Order Traversal (Left → Right → Root)',
+    description: 'Starting Post-Order Traversal (Left -> Right -> Root)',
   };
 
   const result: number[] = [];
@@ -299,7 +299,7 @@ export function* binaryTreePostOrder(
   yield {
     type: 'sorted',
     indices: Array.from({ length: result.length }, (_, i) => i),
-    description: `✅ Post-Order Complete: [${result.join(', ')}]`,
+    description: `Post-Order Complete: [${result.join(', ')}]`,
   };
 }
 
@@ -314,7 +314,7 @@ export function* binaryTreeLevelOrder(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -354,7 +354,7 @@ export function* binaryTreeLevelOrder(
   yield {
     type: 'sorted',
     indices: Array.from({ length: result.length }, (_, i) => i),
-    description: `✅ Level-Order Complete: [${result.join(', ')}]`,
+    description: `Level-Order Complete: [${result.join(', ')}]`,
   };
 }
 
@@ -370,7 +370,7 @@ export function* binaryTreeSearch(
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Tree is empty',
+      description: 'Tree is empty',
     };
     return;
   }
@@ -406,7 +406,7 @@ export function* binaryTreeSearch(
         type: 'search',
         indices: [position],
         nodeIds: [currentId],
-        description: `✅ Found ${target} in tree`,
+        description: `Found ${target} in tree`,
       };
       return;
     }
@@ -419,7 +419,7 @@ export function* binaryTreeSearch(
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ ${target} not found in tree`,
+    description: `${target} not found in tree`,
   };
 }
 

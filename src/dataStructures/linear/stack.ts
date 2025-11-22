@@ -13,7 +13,7 @@ export function* stackPush(
     yield {
       type: 'highlight',
       indices: [],
-      description: `❌ Stack Overflow! Cannot push ${value}. Stack is full (capacity: ${capacity})`,
+      description: `Stack Overflow! Cannot push ${value}. Stack is full (capacity: ${capacity})`,
     };
     return;
   }
@@ -30,7 +30,7 @@ export function* stackPush(
   yield {
     type: 'insert',
     indices: [topIndex],
-    description: `✅ Pushed ${value}. Stack size: ${stack.length}`,
+    description: `Pushed ${value}. Stack size: ${stack.length}`,
   };
 
   yield {
@@ -49,7 +49,7 @@ export function* stackPop(stack: number[]): Generator<AnimationStep> {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Stack Underflow! Cannot pop from empty stack',
+      description: 'Stack Underflow! Cannot pop from empty stack',
     };
     return;
   }
@@ -75,13 +75,13 @@ export function* stackPop(stack: number[]): Generator<AnimationStep> {
     yield {
       type: 'active',
       indices: [stack.length - 1],
-      description: `✅ Popped ${poppedValue}. New top: ${stack[stack.length - 1]}. Stack size: ${stack.length}`,
+      description: `Popped ${poppedValue}. New top: ${stack[stack.length - 1]}. Stack size: ${stack.length}`,
     };
   } else {
     yield {
       type: 'highlight',
       indices: [],
-      description: `✅ Popped ${poppedValue}. Stack is now empty`,
+      description: `Popped ${poppedValue}. Stack is now empty`,
     };
   }
 }
@@ -95,7 +95,7 @@ export function* stackPeek(stack: number[]): Generator<AnimationStep> {
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Cannot peek. Stack is empty',
+      description: 'Cannot peek. Stack is empty',
     };
     return;
   }
@@ -112,7 +112,7 @@ export function* stackPeek(stack: number[]): Generator<AnimationStep> {
   yield {
     type: 'search',
     indices: [topIndex],
-    description: `✅ Top element is ${topValue}. Stack size: ${stack.length}`,
+    description: `Top element is ${topValue}. Stack size: ${stack.length}`,
   };
 }
 
@@ -125,7 +125,7 @@ export function* stackSearch(stack: number[], target: number): Generator<Animati
     yield {
       type: 'highlight',
       indices: [],
-      description: '❌ Stack is empty',
+      description: 'Stack is empty',
     };
     return;
   }
@@ -148,7 +148,7 @@ export function* stackSearch(stack: number[], target: number): Generator<Animati
       yield {
         type: 'search',
         indices: [i],
-        description: `✅ Found ${target} at position ${stack.length - i} from top`,
+        description: `Found ${target} at position ${stack.length - i} from top`,
       };
       return;
     }
@@ -157,7 +157,7 @@ export function* stackSearch(stack: number[], target: number): Generator<Animati
   yield {
     type: 'highlight',
     indices: [],
-    description: `❌ ${target} not found in stack`,
+    description: `${target} not found in stack`,
   };
 }
 
@@ -177,7 +177,7 @@ export function* stackIsEmpty(stack: number[]): Generator<AnimationStep> {
   yield {
     type: isEmpty ? 'highlight' : 'search',
     indices: isEmpty ? [] : [stack.length - 1],
-    description: `✅ Stack is ${isEmpty ? 'EMPTY' : 'NOT EMPTY'} (size: ${stack.length})`,
+    description: `Stack is ${isEmpty ? 'EMPTY' : 'NOT EMPTY'} (size: ${stack.length})`,
   };
 }
 
@@ -195,7 +195,7 @@ export function* stackSize(stack: number[]): Generator<AnimationStep> {
   yield {
     type: 'search',
     indices: stack.length > 0 ? Array.from({ length: stack.length }, (_, i) => i) : [],
-    description: `✅ Stack size: ${stack.length} element${stack.length !== 1 ? 's' : ''}`,
+    description: `Stack size: ${stack.length} element${stack.length !== 1 ? 's' : ''}`,
   };
 }
 

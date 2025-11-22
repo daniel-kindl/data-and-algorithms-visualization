@@ -12,10 +12,16 @@ export const insertionSortInfo: AlgorithmInfo = {
     space: 'O(1)',
   },
   description:
-    'Insertion Sort builds the final sorted array one item at a time. It iterates through the array and for each element, finds its correct position in the sorted portion and inserts it there.',
+    'Insertion Sort builds the final sorted array one item at a time. It iterates through an input array and removes one element per iteration, finds the place the element belongs in the array, and then places it there.',
+  timeComplexityDetails: {
+    best: 'Occurs when the array is already sorted. The inner while loop condition fails immediately for every element.',
+    average: 'On average, each element needs to be compared with half of the sorted sub-array.',
+    worst: 'Occurs when the array is sorted in reverse order. Each new element must be compared with all elements in the sorted sub-array.',
+  },
 };
 
-export const insertionSortCode = `function insertionSort(arr: number[]): number[] {
+export const insertionSortCode = {
+  typescript: `function insertionSort(arr: number[]): number[] {
   const n = arr.length;
   
   for (let i = 1; i < n; i++) {
@@ -33,7 +39,79 @@ export const insertionSortCode = `function insertionSort(arr: number[]): number[
   }
   
   return arr;
-}`;
+}`,
+  python: `def insertion_sort(arr):
+    n = len(arr)
+    
+    for i in range(1, n):
+        key = arr[i]
+        j = i - 1
+        
+        # Move elements greater than key one position ahead
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+            
+        # Insert key at correct position
+        arr[j + 1] = key
+        
+    return arr`,
+  java: `public class InsertionSort {
+    public static void insertionSort(int[] arr) {
+        int n = arr.length;
+        
+        for (int i = 1; i < n; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            
+            // Move elements greater than key one position ahead
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            
+            // Insert key at correct position
+            arr[j + 1] = key;
+        }
+    }
+}`,
+  csharp: `public class InsertionSort {
+    public static void Sort(int[] arr) {
+        int n = arr.Length;
+        
+        for (int i = 1; i < n; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            
+            // Move elements greater than key one position ahead
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            
+            // Insert key at correct position
+            arr[j + 1] = key;
+        }
+    }
+}`,
+  cpp: `void insertionSort(std::vector<int>& arr) {
+    int n = arr.size();
+    
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        
+        // Move elements greater than key one position ahead
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        
+        // Insert key at correct position
+        arr[j + 1] = key;
+    }
+}`
+};
 
 export function* insertionSort(arr: number[]): Generator<AnimationStep> {
   const n = arr.length;

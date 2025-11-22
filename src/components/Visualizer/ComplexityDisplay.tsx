@@ -1,25 +1,25 @@
+import { useState } from 'react';
 import type { AlgorithmComplexity } from '../../types';
 
 interface ComplexityDisplayProps {
   complexity: AlgorithmComplexity;
-  operationsCount?: { comparisons: number; swaps: number; arrayAccesses: number };
-  arraySize?: number;
-  currentStep?: number;
-  totalSteps?: number;
-  elapsedTime?: number;
-  isPlaying?: boolean;
+  timeComplexityDetails?: {
+    best: string;
+    average: string;
+    worst: string;
+  };
   className?: string;
   title?: string;
 }
 
 const ComplexityDisplay = ({
   complexity,
-  operationsCount = { comparisons: 0, swaps: 0, arrayAccesses: 0 },
-  arraySize = 0,
-  totalSteps = 0,
+  timeComplexityDetails,
   className = '',
-  title = 'Time Complexity',
+  title = 'Complexity Analysis',
 }: ComplexityDisplayProps) => {
+  const [selectedComplexity, setSelectedComplexity] = useState<'best' | 'average' | 'worst'>('worst');
+
   // Generate SVG path for complexity curves
   const generateCurvePath = (type: string, width: number, height: number) => {
     const points = 50;
@@ -67,7 +67,8 @@ const ComplexityDisplay = ({
     return { stroke: '#6b7280', name: complexity };
   };
 
-  const worstCase = getComplexityColor(complexity.time.worst);
+  const currentComplexityValue = complexity.time[selectedComplexity];
+  const currentComplexityInfo = getComplexityColor(currentComplexityValue);
 
   return (
     <div
@@ -94,7 +95,7 @@ const ComplexityDisplay = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left Column: Chart */}
-        <div>
+        <div className="flex flex-col">
           <div className="flex justify-between items-center mb-2">
             <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
               Growth Rate Comparison
@@ -103,95 +104,126 @@ const ComplexityDisplay = ({
               Lower is better
             </div>
           </div>
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 border border-gray-200 dark:border-gray-700 relative overflow-hidden">
-            <svg viewBox="0 0 300 200" className="w-full" style={{ maxHeight: '160px' }}>
-              {/* Grid lines */}
-              <line
-                x1="0"
-                y1="200"
-                x2="300"
-                y2="200"
-                stroke="currentColor"
-                strokeWidth="1"
-                className="text-gray-300 dark:text-gray-600"
-              />
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="200"
-                stroke="currentColor"
-                strokeWidth="1"
-                className="text-gray-300 dark:text-gray-600"
-              />
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 border border-gray-200 dark:border-gray-700 relative overflow-hidden shadow-inner flex-1 flex flex-col min-h-[250px]">
+            <div className="flex-1 relative w-full">
+              <svg viewBox="0 0 300 220" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={currentComplexityInfo.stroke} stopOpacity="0.2" />
+                    <stop offset="100%" stopColor={currentComplexityInfo.stroke} stopOpacity="0" />
+                  </linearGradient>
+                </defs>
 
-              {/* Complexity curves */}
-              <path
-                d={generateCurvePath('O(1)', 300, 200)}
-                fill="none"
-                stroke="#10b981"
-                strokeWidth="2"
-                opacity="0.2"
-              />
-              <path
-                d={generateCurvePath('O(log n)', 300, 200)}
-                fill="none"
-                stroke="#3b82f6"
-                strokeWidth="2"
-                opacity="0.2"
-              />
-              <path
-                d={generateCurvePath('O(n)', 300, 200)}
-                fill="none"
-                stroke="#8b5cf6"
-                strokeWidth="2"
-                opacity="0.2"
-              />
-              <path
-                d={generateCurvePath('O(n log n)', 300, 200)}
-                fill="none"
-                stroke="#f59e0b"
-                strokeWidth="2"
-                opacity="0.2"
-              />
-              <path
-                d={generateCurvePath('O(n²)', 300, 200)}
-                fill="none"
-                stroke="#ef4444"
-                strokeWidth="2"
-                opacity="0.2"
-              />
+                {/* Grid lines */}
+                <line
+                  x1="0"
+                  y1="200"
+                  x2="300"
+                  y2="200"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  className="text-gray-300 dark:text-gray-600"
+                />
+                <line
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="200"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  className="text-gray-300 dark:text-gray-600"
+                />
+                
+                {/* Dashed Grid */}
+                {[1, 2, 3].map(i => (
+                  <line
+                    key={i}
+                    x1="0"
+                    y1={200 - i * 50}
+                    x2="300"
+                    y2={200 - i * 50}
+                    stroke="currentColor"
+                    strokeWidth="0.5"
+                    strokeDasharray="4 4"
+                    className="text-gray-200 dark:text-gray-700"
+                  />
+                ))}
 
-              {/* Highlight current algorithm's worst case */}
-              <path
-                d={generateCurvePath(worstCase.name, 300, 200)}
-                fill="none"
-                stroke={worstCase.stroke}
-                strokeWidth="4"
-                className="drop-shadow-md"
-              />
+                {/* Complexity curves */}
+                <path
+                  d={generateCurvePath('O(1)', 300, 200)}
+                  fill="none"
+                  stroke="#10b981"
+                  strokeWidth="1.5"
+                  opacity="0.3"
+                />
+                <path
+                  d={generateCurvePath('O(log n)', 300, 200)}
+                  fill="none"
+                  stroke="#3b82f6"
+                  strokeWidth="1.5"
+                  opacity="0.3"
+                />
+                <path
+                  d={generateCurvePath('O(n)', 300, 200)}
+                  fill="none"
+                  stroke="#8b5cf6"
+                  strokeWidth="1.5"
+                  opacity="0.3"
+                />
+                <path
+                  d={generateCurvePath('O(n log n)', 300, 200)}
+                  fill="none"
+                  stroke="#f59e0b"
+                  strokeWidth="1.5"
+                  opacity="0.3"
+                />
+                <path
+                  d={generateCurvePath('O(n²)', 300, 200)}
+                  fill="none"
+                  stroke="#ef4444"
+                  strokeWidth="1.5"
+                  opacity="0.3"
+                />
 
-              {/* Labels */}
-              <text
-                x="10"
-                y="20"
-                className="text-[10px] fill-current text-gray-500 dark:text-gray-400 font-medium"
-                fontSize="10"
-              >
-                Operations
-              </text>
-              <text
-                x="250"
-                y="190"
-                className="text-[10px] fill-current text-gray-500 dark:text-gray-400 font-medium"
-                fontSize="10"
-              >
-                Elements (n)
-              </text>
-            </svg>
+                {/* Highlight selected complexity */}
+                <path
+                  d={generateCurvePath(currentComplexityInfo.name, 300, 200) + " L 300,200 L 0,200 Z"}
+                  fill="url(#chartGradient)"
+                  stroke="none"
+                />
+                <path
+                  d={generateCurvePath(currentComplexityInfo.name, 300, 200)}
+                  fill="none"
+                  stroke={currentComplexityInfo.stroke}
+                  strokeWidth="3"
+                  className="drop-shadow-md"
+                  strokeLinecap="round"
+                />
+
+                {/* Labels */}
+                <text
+                  x="10"
+                  y="20"
+                  className="text-[10px] fill-current text-gray-500 dark:text-gray-400 font-medium"
+                  fontSize="10"
+                >
+                  Operations
+                </text>
+                <text
+                  x="290"
+                  y="212"
+                  textAnchor="end"
+                  className="text-[10px] fill-current text-gray-500 dark:text-gray-400 font-medium"
+                  fontSize="10"
+                >
+                  Elements (n)
+                </text>
+              </svg>
+            </div>
 
             {/* Legend */}
-            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-[10px] justify-center">
+            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 pt-3 border-t border-gray-200 dark:border-gray-700 text-[10px] justify-center bg-gray-50 dark:bg-gray-800 z-10 relative">
               <div className="flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                 <span className="text-gray-600 dark:text-gray-400">O(1)</span>
@@ -225,84 +257,86 @@ const ComplexityDisplay = ({
             </h4>
             <div className="grid grid-cols-3 gap-2">
               {/* Best Case */}
-              <div className="flex flex-col items-center p-2 bg-green-50 dark:bg-green-900/10 rounded-lg border border-green-100 dark:border-green-800/30 transition hover:scale-105">
-                <span className="text-[10px] font-medium text-green-600 dark:text-green-400 mb-0.5">
+              <button
+                onClick={() => setSelectedComplexity('best')}
+                className={`flex flex-col items-center p-2 rounded-lg border transition-all duration-200 ${
+                  selectedComplexity === 'best'
+                    ? 'bg-green-50 dark:bg-green-900/20 border-green-500 dark:border-green-500 ring-1 ring-green-500'
+                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-green-300 dark:hover:border-green-700'
+                }`}
+              >
+                <div className="mb-1 text-green-600 dark:text-green-400">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 mb-0.5">
                   Best
                 </span>
-                <span className="text-sm font-bold text-green-700 dark:text-green-300 font-mono">
+                <span className="text-sm font-bold text-green-600 dark:text-green-400 font-mono">
                   {complexity.time.best}
                 </span>
-              </div>
+              </button>
+
               {/* Average Case */}
-              <div className="flex flex-col items-center p-2 bg-yellow-50 dark:bg-yellow-900/10 rounded-lg border border-yellow-100 dark:border-yellow-800/30 transition hover:scale-105">
-                <span className="text-[10px] font-medium text-yellow-600 dark:text-yellow-400 mb-0.5">
+              <button
+                onClick={() => setSelectedComplexity('average')}
+                className={`flex flex-col items-center p-2 rounded-lg border transition-all duration-200 ${
+                  selectedComplexity === 'average'
+                    ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-500 dark:border-yellow-500 ring-1 ring-yellow-500'
+                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-yellow-300 dark:hover:border-yellow-700'
+                }`}
+              >
+                <div className="mb-1 text-yellow-600 dark:text-yellow-400">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 mb-0.5">
                   Average
                 </span>
-                <span className="text-sm font-bold text-yellow-700 dark:text-yellow-300 font-mono">
+                <span className="text-sm font-bold text-yellow-600 dark:text-yellow-400 font-mono">
                   {complexity.time.average}
                 </span>
-              </div>
+              </button>
+
               {/* Worst Case */}
-              <div className="flex flex-col items-center p-2 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-800/30 transition hover:scale-105">
-                <span className="text-[10px] font-medium text-red-600 dark:text-red-400 mb-0.5">
+              <button
+                onClick={() => setSelectedComplexity('worst')}
+                className={`flex flex-col items-center p-2 rounded-lg border transition-all duration-200 ${
+                  selectedComplexity === 'worst'
+                    ? 'bg-red-50 dark:bg-red-900/20 border-red-500 dark:border-red-500 ring-1 ring-red-500'
+                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-red-300 dark:hover:border-red-700'
+                }`}
+              >
+                <div className="mb-1 text-red-600 dark:text-red-400">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 mb-0.5">
                   Worst
                 </span>
-                <span className="text-sm font-bold text-red-700 dark:text-red-300 font-mono">
+                <span className="text-sm font-bold text-red-600 dark:text-red-400 font-mono">
                   {complexity.time.worst}
                 </span>
-              </div>
+              </button>
             </div>
           </div>
 
-          {/* Space Complexity */}
-          <div>
-            <h4 className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-              Space Complexity
-            </h4>
-            <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/10 rounded-lg border border-blue-100 dark:border-blue-800/30">
-              <div className="flex items-center gap-2">
-                <svg
-                  className="w-4 h-4 text-blue-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                  />
+          {/* Complexity Details */}
+          {timeComplexityDetails && (
+            <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
+              <h4 className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-xs text-blue-700 dark:text-blue-300 font-medium">
-                  Memory Usage
-                </span>
-              </div>
-              <span className="text-base font-bold text-blue-700 dark:text-blue-300 font-mono">
-                {complexity.space}
-              </span>
-            </div>
-          </div>
-
-          {/* Live Stats */}
-          {arraySize > 0 && totalSteps > 0 && (
-            <div className="pt-3 border-t border-gray-100 dark:border-gray-800">
-              <h4 className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                Live Statistics
+                Performance Analysis ({selectedComplexity})
               </h4>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700">
-                  <div className="text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">Comparisons</div>
-                  <div className="text-base font-mono font-semibold text-gray-900 dark:text-white">
-                    {operationsCount.comparisons}
-                  </div>
-                </div>
-                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700">
-                  <div className="text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">Swaps</div>
-                  <div className="text-base font-mono font-semibold text-gray-900 dark:text-white">
-                    {operationsCount.swaps}
-                  </div>
-                </div>
+              <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-800">
+                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {timeComplexityDetails[selectedComplexity]}
+                </p>
               </div>
             </div>
           )}
