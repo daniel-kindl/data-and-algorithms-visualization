@@ -2,9 +2,11 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+// Extract repository name from GITHUB_REPOSITORY (format: owner/repo)
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
-const inferredBasePath = repoName ? `/${repoName}/` : '/';
-const basePath = process.env.VITE_BASE_PATH ?? (process.env.GITHUB_ACTIONS === 'true' ? inferredBasePath : '/');
+// Use repo name as base path when building in GitHub Actions
+const basePath = process.env.VITE_BASE_PATH 
+  ?? (process.env.GITHUB_ACTIONS && repoName ? `/${repoName}/` : '/');
 
 // https://vite.dev/config/
 export default defineConfig({
