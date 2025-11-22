@@ -26,6 +26,8 @@ const ControlPanel = ({
   variant = 'default',
   className = '',
 }: ControlPanelProps & { variant?: 'default' | 'minimal'; className?: string }) => {
+  // Minimal variant is used when space is limited or for simpler visualizations.
+  // It provides a compact row of controls without the extra padding and labels.
   if (variant === 'minimal') {
     return (
       <div className={`flex flex-col md:flex-row items-center gap-4 w-full ${className}`}>
@@ -183,6 +185,7 @@ const ControlPanel = ({
     );
   }
 
+  // Default variant includes a full panel with title, step counter, and more spacious layout.
   return (
     <div className={`bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-sm ${className}`}>
       <div className="flex items-center justify-between mb-3">
@@ -197,7 +200,7 @@ const ControlPanel = ({
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5"
+              d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5"
             />
           </svg>
           Controls

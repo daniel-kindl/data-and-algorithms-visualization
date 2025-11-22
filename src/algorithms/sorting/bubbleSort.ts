@@ -127,6 +127,9 @@ export const bubbleSortCode = {
 }`
 };
 
+// Generator function that yields AnimationSteps.
+// This allows the animation engine to pause execution at each yield,
+// render the state, and wait for the next tick.
 export function* bubbleSort(arr: number[]): Generator<AnimationStep> {
   const n = arr.length;
 
@@ -134,7 +137,7 @@ export function* bubbleSort(arr: number[]): Generator<AnimationStep> {
     let swapped = false;
 
     for (let j = 0; j < n - i - 1; j++) {
-      // Comparing two adjacent elements
+      // Yield a 'compare' step to highlight elements being compared.
       yield {
         type: 'compare',
         indices: [j, j + 1],
@@ -146,6 +149,7 @@ export function* bubbleSort(arr: number[]): Generator<AnimationStep> {
         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
         swapped = true;
 
+        // Yield a 'swap' step to visualize the swap.
         yield {
           type: 'swap',
           indices: [j, j + 1],
@@ -154,13 +158,15 @@ export function* bubbleSort(arr: number[]): Generator<AnimationStep> {
       }
     }
 
-    // Mark the last element as sorted
+    // Mark the last element of this pass as sorted.
+    // In Bubble Sort, the largest element "bubbles up" to the end in each pass.
     yield {
       type: 'sorted',
       indices: [n - i - 1],
       description: `Element ${arr[n - i - 1]} is now in its correct position`,
     };
 
+    // Optimization: If no swaps occurred in this pass, the array is already sorted.
     if (!swapped) {
       // Mark all remaining elements as sorted
       for (let k = 0; k < n - i - 1; k++) {
@@ -174,7 +180,7 @@ export function* bubbleSort(arr: number[]): Generator<AnimationStep> {
     }
   }
 
-  // Mark the first element as sorted
+  // Mark the first element as sorted (it's the only one left).
   yield {
     type: 'sorted',
     indices: [0],

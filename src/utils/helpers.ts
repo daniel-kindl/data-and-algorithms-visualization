@@ -37,7 +37,9 @@ export const generateReverseSortedArray = (size: number, min = 5, max = 100): nu
 };
 
 /**
- * Generates a nearly sorted array (90% sorted)
+ * Generates a nearly sorted array (90% sorted).
+ * Useful for testing algorithms like Insertion Sort which perform well on nearly sorted data.
+ * It starts with a sorted array and performs a few random swaps to introduce disorder.
  */
 export const generateNearlySortedArray = (size: number, min = 5, max = 100): number[] => {
   const arr = generateSortedArray(size, min, max);
@@ -67,7 +69,9 @@ export const formatNumber = (num: number, decimals = 2): string => {
 };
 
 /**
- * Parses a comma-separated string of numbers into an array
+ * Parses a comma-separated string of numbers into an array.
+ * Handles extra whitespace and filters out invalid inputs (empty strings, non-numbers).
+ * Used for processing user input from the custom data field.
  */
 export const parseNumberArray = (input: string): number[] => {
   return input
@@ -79,7 +83,9 @@ export const parseNumberArray = (input: string): number[] => {
 };
 
 /**
- * Validates if an array of numbers is valid for visualization
+ * Validates if an array of numbers is valid for visualization.
+ * Checks for size constraints and ensures all elements are finite numbers.
+ * This prevents the visualizer from crashing or rendering incorrectly with extreme values.
  */
 export const validateNumberArray = (arr: number[], minSize = 2, maxSize = 100): boolean => {
   if (arr.length < minSize || arr.length > maxSize) {

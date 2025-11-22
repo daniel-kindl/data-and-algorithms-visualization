@@ -242,6 +242,9 @@ const DataStructuresPage = () => {
     }
   }, [selectedStructure]);
 
+  // Execute the selected operation on the data structure.
+  // This function acts as a dispatcher, calling the appropriate generator function
+  // based on the selected structure (Array, Stack, Queue, LinkedList) and operation.
   const executeOperation = useCallback(() => {
     const workingArray = [...displayData];
     const steps = [];
@@ -269,6 +272,7 @@ const DataStructuresPage = () => {
           break;
       }
     } else if (selectedStructure === 'stack') {
+      // Stack operations delegate to array operations but restricted to LIFO
       switch (selectedOperation) {
         case 'push':
           generator = stackPush(workingArray, inputValue);
@@ -290,6 +294,7 @@ const DataStructuresPage = () => {
           break;
       }
     } else if (selectedStructure === 'queue') {
+      // Queue operations delegate to array operations but restricted to FIFO
       switch (selectedOperation) {
         case 'enqueue':
           generator = queueEnqueue(workingArray, inputValue);
@@ -314,6 +319,7 @@ const DataStructuresPage = () => {
           break;
       }
     } else if (selectedStructure === 'linkedList') {
+      // Linked List operations work on a Map of nodes rather than an array
       const workingNodes = new Map(nodes);
 
       switch (selectedOperation) {
@@ -369,7 +375,7 @@ const DataStructuresPage = () => {
       }
     }
 
-    // Process generator for non-linked-list structures
+    // Process generator for non-linked-list structures (Array-based)
     if (generator && selectedStructure !== 'linkedList') {
       for (const step of generator) {
         steps.push(step);

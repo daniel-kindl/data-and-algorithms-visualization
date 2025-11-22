@@ -60,6 +60,7 @@ const InputPanel = ({
       return;
     }
 
+    // Validate array size constraints to prevent performance issues or UI breakage
     if (!validateNumberArray(arr, minSize, maxSize)) {
       setError(`Array must have between ${minSize} and ${maxSize} elements`);
       return;

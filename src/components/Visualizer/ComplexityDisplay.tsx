@@ -20,7 +20,9 @@ const ComplexityDisplay = ({
 }: ComplexityDisplayProps) => {
   const [selectedComplexity, setSelectedComplexity] = useState<'best' | 'average' | 'worst'>('worst');
 
-  // Generate SVG path for complexity curves
+  // Generate SVG path for complexity curves.
+  // This function creates a smooth curve representing the growth rate of different time complexities.
+  // It maps the input size 'n' (x-axis) to the number of operations (y-axis).
   const generateCurvePath = (type: string, width: number, height: number) => {
     const points = 50;
     const maxN = 20;
@@ -31,6 +33,8 @@ const ComplexityDisplay = ({
       const x = (i / points) * width;
       let y = height;
 
+      // Calculate y based on complexity formula
+      // We scale the output to fit within the SVG height
       switch (type) {
         case 'O(1)':
           y = height - height * 0.2;

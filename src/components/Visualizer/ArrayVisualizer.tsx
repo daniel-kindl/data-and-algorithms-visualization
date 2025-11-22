@@ -32,6 +32,8 @@ const ArrayVisualizer = ({
 }: ArrayVisualizerProps) => {
   const maxValue = Math.max(...data, 1);
 
+  // Determine the visual state of an index based on props.
+  // Priority: specific state prop > highlightIndices (with type) > default.
   const getStateForIndex = (
     index: number,
   ): 'default' | 'compare' | 'swap' | 'sorted' | 'active' | 'minimum' => {
@@ -128,6 +130,8 @@ const ArrayVisualizer = ({
           <div className="flex items-end justify-center gap-0.5 p-2 bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-100 dark:border-gray-800 relative overflow-hidden h-64">
             {data.map((value, idx) => {
               const state = getStateForIndex(idx);
+              // Calculate height as percentage of max value.
+              // We enforce a minimum height of 5% so even small values are visible and clickable/hoverable.
               const height = Math.max((value / maxValue) * 100, 5); // Min height 5%
 
               let colorClass = 'bg-blue-500 dark:bg-blue-600 border-blue-600 dark:border-blue-400'; // Default

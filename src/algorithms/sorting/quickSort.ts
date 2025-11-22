@@ -142,6 +142,9 @@ void quickSort(std::vector<int>& arr, int low, int high) {
 }`
 };
 
+// Generator function for Quick Sort visualization.
+// Quick Sort works by selecting a 'pivot' element and partitioning the array
+// such that elements smaller than the pivot are on the left, and larger on the right.
 export function* quickSort(arr: number[]): Generator<AnimationStep> {
   yield* quickSortHelper(arr, 0, arr.length - 1);
 
@@ -154,15 +157,19 @@ export function* quickSort(arr: number[]): Generator<AnimationStep> {
 
 function* quickSortHelper(arr: number[], low: number, high: number): Generator<AnimationStep> {
   if (low < high) {
+    // Partition the array and get the pivot index
     const pivotIndex = yield* partition(arr, low, high);
+    
+    // Recursively sort the sub-arrays
     yield* quickSortHelper(arr, low, pivotIndex - 1);
     yield* quickSortHelper(arr, pivotIndex + 1, high);
   }
 }
 
 function* partition(arr: number[], low: number, high: number): Generator<AnimationStep, number> {
+  // We choose the last element as the pivot
   const pivot = arr[high];
-  let i = low - 1;
+  let i = low - 1; // Index of smaller element
 
   yield {
     type: 'active',
@@ -177,6 +184,7 @@ function* partition(arr: number[], low: number, high: number): Generator<Animati
       description: `Comparing ${arr[j]} with pivot ${pivot}`,
     };
 
+    // If current element is smaller than the pivot
     if (arr[j] < pivot) {
       i++;
       if (i !== j) {
@@ -190,6 +198,7 @@ function* partition(arr: number[], low: number, high: number): Generator<Animati
     }
   }
 
+  // Place the pivot in its correct position
   [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
   yield {
     type: 'swap',

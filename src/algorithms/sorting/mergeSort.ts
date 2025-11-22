@@ -167,6 +167,9 @@ void mergeSort(std::vector<int>& arr, int left, int right) {
 }`
 };
 
+// Generator function for Merge Sort visualization.
+// Merge Sort is a divide-and-conquer algorithm that recursively splits the array
+// into halves until they are single elements, then merges them back in sorted order.
 export function* mergeSort(arr: number[]): Generator<AnimationStep> {
   yield* mergeSortHelper(arr, 0, arr.length - 1);
 
@@ -182,18 +185,23 @@ function* mergeSortHelper(arr: number[], start: number, end: number): Generator<
 
   const mid = Math.floor((start + end) / 2);
 
+  // Recursively sort left and right halves
   yield* mergeSortHelper(arr, start, mid);
   yield* mergeSortHelper(arr, mid + 1, end);
+  
+  // Merge the sorted halves
   yield* merge(arr, start, mid, end);
 }
 
 function* merge(arr: number[], start: number, mid: number, end: number): Generator<AnimationStep> {
+  // Create temporary arrays for the left and right portions
   const left = arr.slice(start, mid + 1);
   const right = arr.slice(mid + 1, end + 1);
   let i = 0;
   let j = 0;
   let k = start;
 
+  // Compare elements from left and right arrays and place smaller one into original array
   while (i < left.length && j < right.length) {
     yield {
       type: 'compare',
@@ -217,6 +225,7 @@ function* merge(arr: number[], start: number, mid: number, end: number): Generat
     k++;
   }
 
+  // Copy remaining elements of left array, if any
   while (i < left.length) {
     arr[k] = left[i];
     yield {
@@ -228,6 +237,7 @@ function* merge(arr: number[], start: number, mid: number, end: number): Generat
     k++;
   }
 
+  // Copy remaining elements of right array, if any
   while (j < right.length) {
     arr[k] = right[j];
     yield {

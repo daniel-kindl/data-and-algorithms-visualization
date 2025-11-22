@@ -30,6 +30,8 @@ const StackVisualizer: React.FC<StackVisualizerProps> = ({
 }) => {
   const maxValue = Math.max(...data, 100);
 
+  // Determine the color of a stack element based on its state.
+  // Different colors represent different operations (push, pop, peek).
   const getBarColor = (index: number) => {
     if (highlightIndices.includes(index)) {
       switch (highlightType) {

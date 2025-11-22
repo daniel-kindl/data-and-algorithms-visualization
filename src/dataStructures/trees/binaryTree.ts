@@ -11,7 +11,8 @@ export interface TreeNode {
 
 /**
  * Binary Tree Insert - O(n) time complexity
- * Inserts a node using level-order (BFS) to find first available position
+ * Inserts a node using level-order (BFS) to find first available position.
+ * This ensures the tree remains complete or near-complete.
  */
 export function* binaryTreeInsert(
   nodes: Map<string, TreeNode>,
@@ -42,6 +43,7 @@ export function* binaryTreeInsert(
   }
 
   // Level-order traversal to find insertion point
+  // We use a queue to check nodes level by level (BFS)
   const queue: string[] = [root];
   let position = 0;
 
@@ -94,7 +96,7 @@ export function* binaryTreeInsert(
       return;
     }
 
-    // Add children to queue
+    // Add children to queue to continue BFS
     queue.push(current.left);
     queue.push(current.right);
     position++;

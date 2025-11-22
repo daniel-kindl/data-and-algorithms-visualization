@@ -13,21 +13,28 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
-    // Initialize theme on mount
+    // Initialize theme on mount.
+    // We check localStorage first to respect user's previous choice.
+    // Default to 'dark' if no preference is found.
     const savedTheme = localStorage.getItem('theme') as Theme;
     const initialTheme = savedTheme || 'dark';
     setTheme(initialTheme);
     
-    // Clean up any existing classes
+    // Clean up any existing classes and apply the initial theme.
+    // This ensures the DOM is in sync with the state immediately.
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(initialTheme);
   }, []);
 
   useEffect(() => {
+    // Update the DOM whenever the theme state changes.
+    // Tailwind uses the 'dark' class on the html element to apply dark mode styles.
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
+    
+    // Persist the choice so it survives page reloads.
     localStorage.setItem('theme', theme);
   }, [theme]);
 

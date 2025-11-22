@@ -113,6 +113,10 @@ export const insertionSortCode = {
 }`
 };
 
+// Generator function for Insertion Sort visualization.
+// Insertion Sort works by building a sorted sub-array at the beginning of the array.
+// It takes each element from the unsorted portion and inserts it into the correct position
+// in the sorted portion.
 export function* insertionSort(arr: number[]): Generator<AnimationStep> {
   const n = arr.length;
 
@@ -132,6 +136,8 @@ export function* insertionSort(arr: number[]): Generator<AnimationStep> {
       description: `Selecting ${key} to insert into sorted portion`,
     };
 
+    // Shift elements of the sorted segment that are greater than the key
+    // to one position ahead of their current position
     while (j >= 0 && arr[j] > key) {
       yield {
         type: 'compare',
@@ -150,6 +156,7 @@ export function* insertionSort(arr: number[]): Generator<AnimationStep> {
       j--;
     }
 
+    // Insert the key into its correct position
     arr[j + 1] = key;
 
     yield {

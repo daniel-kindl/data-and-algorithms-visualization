@@ -20,13 +20,6 @@ const SortingPage = () => {
   const [totalSteps, setTotalSteps] = useState(0);
   const [speed, setSpeed] = useState<AnimationSpeed>(1);
   const [currentDescription, setCurrentDescription] = useState('');
-  const [operationsCount, setOperationsCount] = useState({
-    comparisons: 0,
-    swaps: 0,
-    arrayAccesses: 0,
-  });
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const startTimeRef = useRef<number>(0);
 
   const stepsRef = useRef<AnimationStep[]>([]);
   const arrayStatesRef = useRef<number[][]>([]);
@@ -38,7 +31,10 @@ const SortingPage = () => {
     setData(initialData);
   }, []);
 
-  // Generate animation steps when data or algorithm changes
+  // Generate animation steps when data or algorithm changes.
+  // This pre-calculates the entire sorting process and stores the steps.
+  // We do this upfront to ensure smooth playback and ability to step back/forward
+  // without re-running the algorithm logic during animation.
   useEffect(() => {
     setIsPlaying(false);
     if (data.length === 0) {
@@ -55,12 +51,15 @@ const SortingPage = () => {
     const arrayStates: number[][] = [];
     const workingArray = [...data];
 
+    // Store initial state
     arrayStates.push([...workingArray]);
 
+    // Run the algorithm generator to get all animation steps
     const generator = selectedAlgorithm.generator(workingArray);
 
     for (const step of generator) {
       steps.push(step);
+      // Store the state of the array after each step for time-travel debugging
       arrayStates.push([...workingArray]);
     }
 
@@ -71,12 +70,11 @@ const SortingPage = () => {
     setBarStates({});
     setCurrentStep(0);
     setCurrentDescription('');
-    setOperationsCount({ comparisons: 0, swaps: 0, arrayAccesses: 0 });
-    setElapsedTime(0);
-    startTimeRef.current = 0;
   }, [data, selectedAlgorithm]);
 
-  // Execute a single animation step
+  // Execute a single animation step.
+  // This function updates the visual state (bar colors, array values)
+  // based on the current step's type and indices.
   const executeStep = useCallback(
     (stepIndex: number) => {
       if (stepIndex >= stepsRef.current.length) {
@@ -84,6 +82,7 @@ const SortingPage = () => {
       }
 
       const step = stepsRef.current[stepIndex];
+      // Retrieve the array state corresponding to this step
       const newData = arrayStatesRef.current[stepIndex + 1] || displayData;
       const newStates: Record<number, 'compare' | 'swap' | 'sorted' | 'active' | 'minimum'> = {};
 
@@ -98,13 +97,6 @@ const SortingPage = () => {
       setDisplayData([...newData]);
       setBarStates(newStates);
       setCurrentDescription(step.description);
-
-      // Update operations counter
-      setOperationsCount((prev) => ({
-        comparisons: prev.comparisons + (step.type === 'compare' ? 1 : 0),
-        swaps: prev.swaps + (step.type === 'swap' ? 1 : 0),
-        arrayAccesses: prev.arrayAccesses + step.indices.length,
-      }));
     },
     [displayData],
   );
@@ -120,16 +112,6 @@ const SortingPage = () => {
         setIsPlaying(false);
       }
       return;
-    }
-
-    // Start timer on first step
-    if (currentStep === 0 && startTimeRef.current === 0) {
-      startTimeRef.current = Date.now();
-    }
-
-    // Update elapsed time
-    if (startTimeRef.current > 0) {
-      setElapsedTime(Date.now() - startTimeRef.current);
     }
 
     const delay = 1000 / speed;
@@ -170,9 +152,6 @@ const SortingPage = () => {
     setDisplayData([...data]);
     setBarStates({});
     setCurrentDescription('');
-    setOperationsCount({ comparisons: 0, swaps: 0, arrayAccesses: 0 });
-    setElapsedTime(0);
-    startTimeRef.current = 0;
   };
 
   const handleStepForward = () => {
@@ -190,7 +169,6 @@ const SortingPage = () => {
       // Reset to initial state
       setDisplayData([...data]);
       setBarStates({});
-      setOperationsCount({ comparisons: 0, swaps: 0, arrayAccesses: 0 });
 
       // Replay all steps up to newStep
       const validTypes = ['compare', 'swap', 'sorted', 'active', 'minimum'] as const;
@@ -206,12 +184,6 @@ const SortingPage = () => {
           }
         });
         setBarStates(newStates);
-
-        setOperationsCount((prev) => ({
-          comparisons: prev.comparisons + (step.type === 'compare' ? 1 : 0),
-          swaps: prev.swaps + (step.type === 'swap' ? 1 : 0),
-          arrayAccesses: prev.arrayAccesses + step.indices.length,
-        }));
       }
 
       // Show current step description

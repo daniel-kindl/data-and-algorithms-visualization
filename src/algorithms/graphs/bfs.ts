@@ -52,7 +52,8 @@ export function* bfs(
 
     const neighbors = graph.getNeighbors(currentNodeId);
     
-    // Sort neighbors for consistent traversal order (optional but good for visualization)
+    // Sort neighbors for consistent traversal order (optional but good for visualization).
+    // This ensures the animation is deterministic and easier to follow.
     neighbors.sort();
 
     for (const neighborId of neighbors) {

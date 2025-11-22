@@ -18,16 +18,20 @@ const CodePanel = ({ code, language = 'typescript', title }: CodePanelProps) => 
   const codeRef = useRef<HTMLElement>(null);
   const [selectedLanguage, setSelectedLanguage] = useState(language);
 
-  // Determine if we have multiple languages
+  // Determine if we have multiple languages.
+  // The 'code' prop can be a simple string (single language) or an object mapping language names to code strings.
   const isMultiLanguage = typeof code === 'object' && code !== null;
   
-  // Get current code and language
+  // Get current code and language based on selection.
+  // If multi-language, use the selected language, otherwise default to the single provided code.
   const currentCode = isMultiLanguage 
     ? (code as Record<string, string>)[selectedLanguage] || Object.values(code)[0]
     : (code as string);
     
   const currentLanguage = isMultiLanguage ? selectedLanguage : language;
 
+  // Apply syntax highlighting whenever code or language changes.
+  // Prism.highlightElement is used to manually trigger highlighting on the code block.
   useEffect(() => {
     if (codeRef.current) {
       Prism.highlightElement(codeRef.current);

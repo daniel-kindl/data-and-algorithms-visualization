@@ -52,7 +52,8 @@ export function* linkedListInsertHead(
 
 /**
  * Linked List Insert at Tail - O(n) time complexity
- * Inserts a new node at the end of the list
+ * Inserts a new node at the end of the list.
+ * Requires traversing the entire list to find the last node.
  */
 export function* linkedListInsertTail(
   nodes: Map<string, DataStructureNode>,

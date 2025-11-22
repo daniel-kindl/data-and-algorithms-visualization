@@ -125,6 +125,9 @@ export const selectionSortCode = {
 }`
 };
 
+// Generator function for Selection Sort visualization.
+// Selection Sort works by repeatedly finding the minimum element from the unsorted part
+// and putting it at the beginning.
 export function* selectionSort(arr: number[]): Generator<AnimationStep> {
   const n = arr.length;
 
@@ -137,6 +140,7 @@ export function* selectionSort(arr: number[]): Generator<AnimationStep> {
       description: `Starting position ${i}, current minimum: ${arr[minIndex]}`,
     };
 
+    // Find the minimum element in the unsorted sub-array
     for (let j = i + 1; j < n; j++) {
       yield {
         type: 'compare',
@@ -154,6 +158,7 @@ export function* selectionSort(arr: number[]): Generator<AnimationStep> {
       }
     }
 
+    // Swap the found minimum element with the first element of the unsorted sub-array
     if (minIndex !== i) {
       yield {
         type: 'swap',

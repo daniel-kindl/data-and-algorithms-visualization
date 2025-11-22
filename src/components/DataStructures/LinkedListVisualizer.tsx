@@ -29,6 +29,8 @@ const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({
   explanation,
   children,
 }) => {
+  // Determine the color of a node based on its state.
+  // This provides visual feedback for operations like insertion, deletion, and traversal.
   const getNodeColor = (index: number) => {
     if (highlightIndices.includes(index)) {
       switch (highlightType) {
@@ -49,7 +51,9 @@ const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({
     return 'bg-indigo-600 dark:bg-indigo-700 border-indigo-800';
   };
 
-  // Convert linked list to array for visualization
+  // Convert linked list to array for visualization.
+  // Since React renders lists, we need to traverse the linked list structure
+  // and create a linear array of nodes to map over in the JSX.
   const listArray: { node: DataStructureNode; position: number }[] = [];
   let current = head;
   let position = 0;

@@ -49,6 +49,8 @@ export default function GraphVisualizer({
     return theme === 'dark' ? '#4B5563' : '#374151';
   };
 
+  // Helper to determine edge color based on traversal state.
+  // If both source and target are visited/path nodes, the edge is considered traversed.
   const getEdgeColor = (source: string, target: string) => {
     const isTraversed = 
       (visitedNodes.includes(source) && visitedNodes.includes(target)) ||
@@ -91,6 +93,8 @@ export default function GraphVisualizer({
       minHeight="300px"
     >
       <div className="flex-1 w-full h-[40vh] min-h-[300px] bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-100 dark:border-gray-800 relative overflow-hidden">
+        {/* SVG uses a dynamic viewBox to scale the graph content to fit the container.
+            preserveAspectRatio ensures the graph doesn't get distorted. */}
         <svg 
           ref={svgRef} 
           width="100%" 

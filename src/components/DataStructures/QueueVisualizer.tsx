@@ -30,6 +30,8 @@ const QueueVisualizer: React.FC<QueueVisualizerProps> = ({
 }) => {
   const maxValue = Math.max(...data, 100);
 
+  // Determine the color of a queue element based on its state.
+  // Visualizes enqueue (green), dequeue (red), and other operations.
   const getBoxColor = (index: number) => {
     if (highlightIndices.includes(index)) {
       switch (highlightType) {

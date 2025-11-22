@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/Layout/Layout';
 
+// Using lazy loading for pages to improve initial load time by splitting code into chunks.
+// This ensures users only download the code for the page they are currently viewing.
 const Home = lazy(() => import('./pages/Home'));
 const SortingPage = lazy(() => import('./pages/SortingPage'));
 const DataStructuresPage = lazy(() => import('./pages/DataStructuresPage'));
@@ -10,15 +12,17 @@ const AdvancedStructuresPage = lazy(() => import('./pages/AdvancedStructuresPage
 const GraphPage = lazy(() => import('./pages/GraphPage'));
 
 function App() {
-  // Get the base URL from Vite environment variables
-  // This handles the subpath deployment on GitHub Pages automatically
-  // if the "base" property is set correctly in vite.config.ts
+  // Get the base URL from Vite environment variables.
+  // This is crucial for correct routing when deployed to subpaths (like GitHub Pages).
+  // If the "base" property is set in vite.config.ts, import.meta.env.BASE_URL will reflect it.
   const basename = import.meta.env.BASE_URL;
 
   return (
     <ThemeProvider>
       <Router basename={basename}>
         <Layout>
+          {/* Suspense is required when using lazy-loaded components. 
+              It shows a fallback UI (spinner) while the component code is being fetched. */}
           <Suspense
             fallback={
               <div className="flex items-center justify-center h-[calc(100vh-64px)]">
