@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { VisualizerContainer } from './VisualizerContainer';
 
 interface ArrayVisualizerProps {
@@ -19,6 +20,48 @@ interface ArrayVisualizerProps {
   title?: string;
   children?: React.ReactNode;
 }
+
+interface ArrayBarProps {
+  value: number;
+  index: number;
+  maxValue: number;
+  state: 'default' | 'compare' | 'swap' | 'sorted' | 'active' | 'minimum';
+}
+
+const ArrayBar = memo(({ value, index, maxValue, state }: ArrayBarProps) => {
+  // Calculate height as percentage of max value.
+  // We enforce a minimum height of 5% so even small values are visible and clickable/hoverable.
+  const height = Math.max((value / maxValue) * 100, 5); // Min height 5%
+
+  let colorClass =
+    'bg-blue-500 dark:bg-blue-600 border-blue-600 dark:border-blue-400'; // Default
+  if (state === 'compare') {
+    colorClass = 'bg-yellow-500 border-yellow-600';
+  }
+  if (state === 'swap') {
+    colorClass = 'bg-red-500 border-red-600';
+  }
+  if (state === 'sorted') {
+    colorClass = 'bg-green-500 border-green-600';
+  }
+  if (state === 'active') {
+    colorClass = 'bg-purple-500 border-purple-600';
+  }
+  if (state === 'minimum') {
+    colorClass = 'bg-pink-500 border-pink-600';
+  }
+
+  return (
+    <div
+      className={`flex-1 rounded-t-sm transition-all duration-200 ease-in-out relative group border-t border-x ${colorClass}`}
+      style={{ height: `${height}%` }}
+    >
+      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-1.5 py-0.5 rounded pointer-events-none z-10 whitespace-nowrap">
+        Val: {value} | Idx: {index}
+      </div>
+    </div>
+  );
+});
 
 const ArrayVisualizer = ({
   data,
@@ -120,7 +163,7 @@ const ArrayVisualizer = ({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
               />
             </svg>
             <p className="text-base font-medium">No Data to Visualize</p>
@@ -128,41 +171,15 @@ const ArrayVisualizer = ({
           </div>
         ) : (
           <div className="flex items-end justify-center gap-0.5 p-2 bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-100 dark:border-gray-800 relative overflow-hidden h-64">
-            {data.map((value, idx) => {
-              const state = getStateForIndex(idx);
-              // Calculate height as percentage of max value.
-              // We enforce a minimum height of 5% so even small values are visible and clickable/hoverable.
-              const height = Math.max((value / maxValue) * 100, 5); // Min height 5%
-
-              let colorClass = 'bg-blue-500 dark:bg-blue-600 border-blue-600 dark:border-blue-400'; // Default
-              if (state === 'compare') {
-                colorClass = 'bg-yellow-500 border-yellow-600';
-              }
-              if (state === 'swap') {
-                colorClass = 'bg-red-500 border-red-600';
-              }
-              if (state === 'sorted') {
-                colorClass = 'bg-green-500 border-green-600';
-              }
-              if (state === 'active') {
-                colorClass = 'bg-purple-500 border-purple-600';
-              }
-              if (state === 'minimum') {
-                colorClass = 'bg-pink-500 border-pink-600';
-              }
-
-              return (
-                <div
-                  key={idx}
-                  className={`flex-1 rounded-t-sm transition-all duration-200 ease-in-out relative group border-t border-x ${colorClass}`}
-                  style={{ height: `${height}%` }}
-                >
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-1.5 py-0.5 rounded pointer-events-none z-10 whitespace-nowrap">
-                    Val: {value} | Idx: {idx}
-                  </div>
-                </div>
-              );
-            })}
+            {data.map((value, idx) => (
+              <ArrayBar
+                key={idx}
+                value={value}
+                index={idx}
+                maxValue={maxValue}
+                state={getStateForIndex(idx)}
+              />
+            ))}
           </div>
         )}
 
