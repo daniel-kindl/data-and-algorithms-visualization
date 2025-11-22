@@ -10,9 +10,12 @@ export interface AnimationStep {
     | 'insert'
     | 'delete'
     | 'search'
-    | 'highlight';
+    | 'highlight'
+    | 'update-distances';
   indices: number[];
   nodeIds?: string[];
+  highlightedLines?: { from: string; to: string }[];
+  auxiliaryData?: any;
   description: string;
 }
 
@@ -53,6 +56,19 @@ export interface DataStructureNode {
   value: number | string;
   next?: string | null;
   prev?: string | null;
+}
+
+export interface GraphNode {
+  id: string;
+  value: string | number;
+  x: number;
+  y: number;
+}
+
+export interface GraphEdge {
+  source: string;
+  target: string;
+  weight?: number;
 }
 
 export interface ArrayOperation {
