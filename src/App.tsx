@@ -1,10 +1,13 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/Layout/Layout';
-import Home from './pages/Home';
-import SortingPage from './pages/SortingPage';
-import DataStructuresPage from './pages/DataStructuresPage';
-import AdvancedStructuresPage from './pages/AdvancedStructuresPage';
+
+const Home = lazy(() => import('./pages/Home'));
+const SortingPage = lazy(() => import('./pages/SortingPage'));
+const DataStructuresPage = lazy(() => import('./pages/DataStructuresPage'));
+const AdvancedStructuresPage = lazy(() => import('./pages/AdvancedStructuresPage'));
+const GraphPage = lazy(() => import('./pages/GraphPage'));
 
 function App() {
   // Get the base URL from Vite environment variables
@@ -16,12 +19,21 @@ function App() {
     <ThemeProvider>
       <Router basename={basename}>
         <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/sorting" element={<SortingPage />} />
-            <Route path="/data-structures" element={<DataStructuresPage />} />
-            <Route path="/advanced-structures" element={<AdvancedStructuresPage />} />
-          </Routes>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-[calc(100vh-64px)]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/sorting" element={<SortingPage />} />
+              <Route path="/data-structures" element={<DataStructuresPage />} />
+              <Route path="/advanced-structures" element={<AdvancedStructuresPage />} />
+              <Route path="/graphs" element={<GraphPage />} />
+            </Routes>
+          </Suspense>
         </Layout>
       </Router>
     </ThemeProvider>
