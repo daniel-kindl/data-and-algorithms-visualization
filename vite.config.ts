@@ -5,7 +5,7 @@ import path from 'path';
 // Extract repository name from GITHUB_REPOSITORY (format: owner/repo)
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
 // Use repo name as base path when building in GitHub Actions
-const basePath = process.env.VITE_BASE_PATH 
+const basePath = process.env.VITE_BASE_PATH
   ?? (process.env.GITHUB_ACTIONS && repoName ? `/${repoName}/` : '/');
 
 // https://vite.dev/config/
