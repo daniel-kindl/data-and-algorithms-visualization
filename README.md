@@ -87,6 +87,13 @@ For more detailed information, check the `docs/` directory:
 - [**Testing Guide**](docs/TESTING.md)
 - [**SOLID Principles**](docs/SOLID_PRINCIPLES.md)
 
+## 🌐 Deployment
+
+- GitHub Actions already contains `ci.yml` (tests + build) and `deploy.yml` (Pages).
+- Enable **GitHub Pages → GitHub Actions** in repository settings so `deploy.yml` can publish.
+- When the workflow runs on GitHub Actions it auto-sets the Vite `base` to `/<repo-name>/` for project pages.
+- Override with `VITE_BASE_PATH=/` (or your custom prefix) before `npm run build` if you deploy to a custom domain or user/organization pages.
+
 ## 🛠️ Tech Stack
 
 - **Core**: React 19, TypeScript

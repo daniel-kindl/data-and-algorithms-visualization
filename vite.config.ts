@@ -2,11 +2,13 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
+const inferredBasePath = repoName ? `/${repoName}/` : '/';
+const basePath = process.env.VITE_BASE_PATH ?? (process.env.GITHUB_ACTIONS === 'true' ? inferredBasePath : '/');
+
 // https://vite.dev/config/
 export default defineConfig({
-  // TODO: Update this to your repository name if deploying to GitHub Pages
-  // e.g. base: '/my-repo-name/',
-  base: '/', 
+  base: basePath,
   plugins: [react()],
   css: {
     postcss: './config/postcss.config.js',
