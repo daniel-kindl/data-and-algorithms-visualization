@@ -1,6 +1,6 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import type { AnimationStep, DataStructureNode, DataStructureType } from '../types';
+import type { AnimationStep } from '../types';
 import ControlPanel from '../components/Controls/ControlPanel';
 import StackVisualizer from '../components/DataStructures/StackVisualizer';
 import QueueVisualizer from '../components/DataStructures/QueueVisualizer';
@@ -44,27 +44,71 @@ import {
   linkedListSize,
 } from '../dataStructures/linear/linkedList';
 
+interface StructureInfo {
+  description: string;
+  characteristics: string[];
+}
+
+const structureInfo: Record<string, StructureInfo> = {
+  array: {
+    description: "An array is a collection of items stored at contiguous memory locations. It allows random access to elements using indices.",
+    characteristics: [
+      "Random access: O(1)",
+      "Insertion/Deletion: O(n)",
+      "Search: O(n) (unsorted)",
+      "Fixed size (static arrays)"
+    ]
+  },
+  stack: {
+    description: "A Stack is a linear data structure that follows the LIFO (Last In First Out) principle. Elements are added and removed from the same end, called the 'top'.",
+    characteristics: [
+      "Push/Pop: O(1)",
+      "Peek: O(1)",
+      "LIFO (Last In First Out)",
+      "Used in recursion, undo/redo"
+    ]
+  },
+  queue: {
+    description: "A Queue is a linear data structure that follows the FIFO (First In First Out) principle. Elements are added at the 'rear' and removed from the 'front'.",
+    characteristics: [
+      "Enqueue/Dequeue: O(1)",
+      "Peek: O(1)",
+      "FIFO (First In First Out)",
+      "Used in scheduling, buffering"
+    ]
+  },
+  linkedList: {
+    description: "A Linked List is a linear data structure where elements are stored in nodes. Each node contains a data field and a reference (link) to the next node in the sequence.",
+    characteristics: [
+      "Dynamic size",
+      "Insertion/Deletion: O(1) (if position known)",
+      "Access/Search: O(n)",
+      "No random access"
+    ]
+  }
+};
+
 const DataStructuresPage = () => {
-  const [selectedStructure, setSelectedStructure] = useState<DataStructureType>('array');
-  const [selectedOperation, setSelectedOperation] = useState<string>('insert');
-  const [displayData, setDisplayData] = useState<number[]>([5, 3, 8, 1, 9, 2]);
-  const [inputValue, setInputValue] = useState<number>(10);
-  const [inputIndex, setInputIndex] = useState<number>(0);
+  const [selectedStructure, setSelectedStructure] = useState('array');
+  const [selectedOperation, setSelectedOperation] = useState('insert');
+  const [displayData, setDisplayData] = useState([5, 3, 8, 1, 9, 2]);
+  const [inputValue, setInputValue] = useState(10);
+  const [inputIndex, setInputIndex] = useState(0);
 
   // Linked list state
-  const [nodes, setNodes] = useState<Map<string, DataStructureNode>>(new Map());
-  const [head, setHead] = useState<string | null>(null);
+  const [nodes, setNodes] = useState(new Map());
+  const [head, setHead] = useState(null);
 
   // Initialize Linked List with default data
   useEffect(() => {
     const initialValues = [5, 3, 8, 1, 9, 2];
-    const newNodes = new Map<string, DataStructureNode>();
-    let newHead: string | null = null;
+    const newNodes = new Map();
+    let newHead = null;
     let prevNodeId: string | null = null;
 
     initialValues.forEach((value, index) => {
       const nodeId = `node-${index}`;
-      const newNode: DataStructureNode = {
+      const newNode = {
         id: nodeId,
         value: value,
         next: null,
@@ -92,16 +136,16 @@ const DataStructuresPage = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
-  const [animationSpeed, setAnimationSpeed] = useState<number>(1);
+  const [animationSpeed, setAnimationSpeed] = useState(1);
   const [currentDescription, setCurrentDescription] = useState('');
   const [highlightIndices, setHighlightIndices] = useState<number[]>([]);
   const [highlightType, setHighlightType] = useState<
-    'compare' | 'swap' | 'sorted' | 'active' | 'insert' | 'delete' | 'highlight' | 'search'
+    'insert' | 'delete' | 'search' | 'compare' | 'swap' | 'sorted' | 'active' | 'highlight' | 'minimum'
   >('active');
 
   const stepsRef = useRef<AnimationStep[]>([]);
   const arrayStatesRef = useRef<number[][]>([]);
-  const animationTimeoutRef = useRef<number | null>(null);
+  const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const visualizerRef = useRef<HTMLDivElement>(null);
 
   // Get available operations based on selected structure
@@ -130,9 +174,7 @@ const DataStructuresPage = () => {
   };
 
   // Helper to filter step types to valid visualizer types
-  const toValidHighlightType = (
-    type: AnimationStep['type'],
-  ): 'compare' | 'swap' | 'sorted' | 'active' | 'insert' | 'delete' | 'highlight' | 'search' => {
+  const toValidHighlightType = (type: string): 'insert' | 'delete' | 'search' | 'compare' | 'swap' | 'sorted' | 'active' | 'highlight' | 'minimum' => {
     const validTypes = [
       'compare',
       'swap',
@@ -142,10 +184,9 @@ const DataStructuresPage = () => {
       'delete',
       'highlight',
       'search',
-    ] as const;
-    return validTypes.includes(type as (typeof validTypes)[number])
-      ? (type as (typeof validTypes)[number])
-      : 'active';
+      'minimum',
+    ];
+    return validTypes.includes(type) ? (type as any) : 'active';
   };
 
   // Reset operation and data when structure changes
@@ -169,13 +210,13 @@ const DataStructuresPage = () => {
     const randomData = generateRandomArray(6, 1, 99);
 
     if (selectedStructure === 'linkedList') {
-      const newNodes = new Map<string, DataStructureNode>();
-      let newHead: string | null = null;
+      const newNodes = new Map();
+      let newHead = null;
       let prevNodeId: string | null = null;
 
       randomData.forEach((value, index) => {
         const nodeId = `node-${Date.now()}-${index}`;
-        const newNode: DataStructureNode = {
+        const newNode = {
           id: nodeId,
           value: value,
           next: null,
@@ -199,18 +240,14 @@ const DataStructuresPage = () => {
     } else {
       setDisplayData(randomData);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- getOperations depends on selectedStructure which is already a dependency
   }, [selectedStructure]);
 
   const executeOperation = useCallback(() => {
     const workingArray = [...displayData];
-    const steps: AnimationStep[] = [];
-    const arrayStates: number[][] = [workingArray.slice()];
+    const steps = [];
+    const arrayStates = [workingArray.slice()];
 
-    let generator: Generator<
-      AnimationStep | (AnimationStep & { newHead?: string; newTail?: string })
-    > | null = null;
+    let generator = null;
 
     // Execute based on structure and operation
     if (selectedStructure === 'array') {
@@ -285,14 +322,14 @@ const DataStructuresPage = () => {
             workingNodes,
             head,
             inputValue,
-          ) as Generator<AnimationStep>;
+          );
           break;
         case 'insertTail':
           generator = linkedListInsertTail(
             workingNodes,
             head,
             inputValue,
-          ) as Generator<AnimationStep>;
+          );
           break;
         case 'insertAt':
           generator = linkedListInsertAt(
@@ -300,13 +337,13 @@ const DataStructuresPage = () => {
             head,
             inputValue,
             inputIndex,
-          ) as Generator<AnimationStep>;
+          );
           break;
         case 'deleteHead':
-          generator = linkedListDeleteHead(workingNodes, head) as Generator<AnimationStep>;
+          generator = linkedListDeleteHead(workingNodes, head);
           break;
         case 'deleteTail':
-          generator = linkedListDeleteTail(workingNodes, head) as Generator<AnimationStep>;
+          generator = linkedListDeleteTail(workingNodes, head);
           break;
         case 'isEmpty':
           generator = linkedListIsEmpty(workingNodes, head);
@@ -324,7 +361,7 @@ const DataStructuresPage = () => {
         for (const step of generator) {
           steps.push(step);
           if ('newHead' in step && step.newHead !== undefined) {
-            newHead = step.newHead;
+            newHead = step.newHead as any;
           }
         }
         setNodes(workingNodes);
@@ -347,7 +384,6 @@ const DataStructuresPage = () => {
     if (steps.length > 0) {
       setIsPlaying(true);
       setCurrentStep(0);
-      // Use setTimeout to allow render cycle to complete and layout to update
       setTimeout(() => {
         visualizerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
@@ -494,13 +530,13 @@ const DataStructuresPage = () => {
 
     // Clear linked list state
     if (selectedStructure === 'linkedList') {
-      const newNodes = new Map<string, DataStructureNode>();
-      let newHead: string | null = null;
+      const newNodes = new Map();
+      let newHead = null;
       let prevNodeId: string | null = null;
 
       randomData.forEach((value, index) => {
         const nodeId = `node-${Date.now()}-${index}`;
-        const newNode: DataStructureNode = {
+        const newNode = {
           id: nodeId,
           value: value,
           next: null,
@@ -563,6 +599,23 @@ const DataStructuresPage = () => {
       </div>
     ) : null;
 
+    const explanationElement = (
+      <div className="space-y-2">
+        <p>{structureInfo[selectedStructure].description}</p>
+        <div className="mt-2">
+          <span className="font-semibold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Key Characteristics</span>
+          <ul className="mt-1 grid grid-cols-2 gap-2">
+            {structureInfo[selectedStructure].characteristics.map((char, idx) => (
+              <li key={idx} className="text-xs flex items-center gap-1.5 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded border border-gray-100 dark:border-gray-700">
+                <div className="w-1 h-1 rounded-full bg-blue-500"></div>
+                {char}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+
     switch (selectedStructure) {
       case 'array':
         return (
@@ -572,6 +625,7 @@ const DataStructuresPage = () => {
             highlightType={highlightType}
             title="Visualization"
             description={currentDescription}
+            explanation={explanationElement}
           >
             {controls}
           </ArrayVisualizer>
@@ -581,8 +635,9 @@ const DataStructuresPage = () => {
           <StackVisualizer
             data={displayData}
             highlightIndices={highlightIndices}
-            highlightType={highlightType}
+            highlightType={highlightType as any}
             title="Visualization"
+            explanation={explanationElement}
           >
             {descriptionElement}
             {controls}
@@ -593,8 +648,9 @@ const DataStructuresPage = () => {
           <QueueVisualizer
             data={displayData}
             highlightIndices={highlightIndices}
-            highlightType={highlightType}
+            highlightType={highlightType as any}
             title="Visualization"
+            explanation={explanationElement}
           >
             {descriptionElement}
             {controls}
@@ -606,8 +662,9 @@ const DataStructuresPage = () => {
             nodes={nodes}
             head={head}
             highlightIndices={highlightIndices}
-            highlightType={highlightType}
+            highlightType={highlightType as any}
             title="Visualization"
+            explanation={explanationElement}
           >
             {descriptionElement}
             {controls}
@@ -669,8 +726,8 @@ const DataStructuresPage = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            {(['array', 'stack', 'queue', 'linkedList'] as DataStructureType[]).map((structure) => {
-              const icons = {
+            {['array', 'stack', 'queue', 'linkedList'].map((structure) => {
+              const icons: Record<string, React.ReactNode> = {
                 array: (
                   <path
                     strokeLinecap="round"
@@ -772,7 +829,7 @@ const DataStructuresPage = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 2.924 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
                 />
                 <path
                   strokeLinecap="round"
