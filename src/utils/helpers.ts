@@ -122,4 +122,3 @@ export const arrayEqual = (arr1: number[], arr2: number[]): boolean => {
   }
   return arr1.every((val, index) => val === arr2[index]);
 };
-

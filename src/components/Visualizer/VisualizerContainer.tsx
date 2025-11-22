@@ -22,8 +22,8 @@ export function VisualizerContainer({
   minHeight = '400px',
 }: VisualizerContainerProps) {
   return (
-    <div 
-      className={`bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-sm h-full flex flex-col ${className}`} 
+    <div
+      className={`bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 shadow-sm h-full flex flex-col ${className}`}
       style={{ minHeight }}
     >
       <div className="flex items-center justify-between mb-4">

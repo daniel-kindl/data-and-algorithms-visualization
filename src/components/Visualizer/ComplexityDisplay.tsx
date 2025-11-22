@@ -137,7 +137,7 @@ const ComplexityDisplay = ({
                   strokeWidth="1"
                   className="text-gray-300 dark:text-gray-600"
                 />
-                
+
                 {/* Dashed Grid */}
                 {[1, 2, 3].map(i => (
                   <line
@@ -192,7 +192,7 @@ const ComplexityDisplay = ({
 
                 {/* Highlight selected complexity */}
                 <path
-                  d={generateCurvePath(currentComplexityInfo.name, 300, 200) + " L 300,200 L 0,200 Z"}
+                  d={`${generateCurvePath(currentComplexityInfo.name, 300, 200) } L 300,200 L 0,200 Z`}
                   fill="url(#chartGradient)"
                   stroke="none"
                 />

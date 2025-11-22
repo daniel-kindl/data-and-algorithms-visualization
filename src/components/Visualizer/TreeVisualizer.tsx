@@ -58,19 +58,19 @@ export default function TreeVisualizer({
   const legend = (
     <>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-gray-700 dark:bg-gray-600 border border-gray-600 dark:border-gray-500"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-gray-700 dark:bg-gray-600 border border-gray-600 dark:border-gray-500" />
         <span className="text-gray-600 dark:text-gray-400">Normal</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-emerald-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-emerald-600" />
         <span className="text-gray-600 dark:text-gray-400">Active</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-amber-500 border border-amber-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-amber-500 border border-amber-600" />
         <span className="text-gray-600 dark:text-gray-400">Compare</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-purple-600 border border-purple-700"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-purple-600 border border-purple-700" />
         <span className="text-gray-600 dark:text-gray-400">Highlight</span>
       </div>
     </>
@@ -252,9 +252,11 @@ function drawNodes(
     ctx.stroke();
 
     // Draw value
-    ctx.fillStyle = highlightedNodes.includes(nodeId) || comparedNodes.includes(nodeId) || activeNodes.includes(nodeId) 
-      ? '#FFFFFF' 
-      : textColor;
+    const isHighlighted =
+      highlightedNodes.includes(nodeId) ||
+      comparedNodes.includes(nodeId) ||
+      activeNodes.includes(nodeId);
+    ctx.fillStyle = isHighlighted ? '#FFFFFF' : textColor;
     ctx.font = 'bold 16px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

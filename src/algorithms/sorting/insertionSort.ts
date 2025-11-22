@@ -110,7 +110,7 @@ export const insertionSortCode = {
         // Insert key at correct position
         arr[j + 1] = key;
     }
-}`
+}`,
 };
 
 // Generator function for Insertion Sort visualization.

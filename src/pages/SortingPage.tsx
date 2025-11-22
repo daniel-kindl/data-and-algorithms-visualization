@@ -10,7 +10,7 @@ import type { AnimationSpeed, AnimationStep } from '../types';
 
 const SortingPage = () => {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState(sortingAlgorithms[0]);
-  const [data, setData] = useState<number[]>([]);
+  const [data, setData] = useState<number[]>(() => generateRandomArray(20));
   const [displayData, setDisplayData] = useState<number[]>([]);
   const [barStates, setBarStates] = useState<
     Record<number, 'compare' | 'swap' | 'sorted' | 'active' | 'minimum'>
@@ -25,12 +25,6 @@ const SortingPage = () => {
   const arrayStatesRef = useRef<number[][]>([]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Initialize with random data
-  useEffect(() => {
-    const initialData = generateRandomArray(20);
-    setData(initialData);
-  }, []);
-
   // Generate animation steps when data or algorithm changes.
   // This pre-calculates the entire sorting process and stores the steps.
   // We do this upfront to ensure smooth playback and ability to step back/forward
@@ -40,7 +34,7 @@ const SortingPage = () => {
     if (data.length === 0) {
       stepsRef.current = [];
       arrayStatesRef.current = [];
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Clearing state when data is empty
+
       setTotalSteps(0);
       setDisplayData([]);
       setBarStates({});
@@ -108,7 +102,6 @@ const SortingPage = () => {
         clearTimeout(timeoutRef.current);
       }
       if (currentStep >= stepsRef.current.length && stepsRef.current.length > 0) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- Necessary to stop animation when complete
         setIsPlaying(false);
       }
       return;
@@ -253,7 +246,7 @@ const SortingPage = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
               {selectedAlgorithm.info.description}
             </p>
-            
+
             <div className="grid grid-cols-1 gap-3 text-xs">
               <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
                 <span className="font-semibold block mb-1 text-gray-500 dark:text-gray-400">Time Complexity (Average)</span>

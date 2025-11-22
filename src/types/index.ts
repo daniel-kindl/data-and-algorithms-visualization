@@ -15,7 +15,7 @@ export interface AnimationStep {
   indices: number[];
   nodeIds?: string[];
   highlightedLines?: { from: string; to: string }[];
-  auxiliaryData?: any;
+  auxiliaryData?: Record<string, unknown>;
   description: string;
 }
 

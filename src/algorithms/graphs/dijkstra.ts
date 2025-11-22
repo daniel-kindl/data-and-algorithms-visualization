@@ -4,7 +4,7 @@ import type { AnimationStep } from '../../types';
 export function* generateDijkstraSteps(
   graph: Graph,
   startNodeId: string,
-  endNodeId: string | null = null
+  endNodeId: string | null = null,
 ): Generator<AnimationStep> {
   const distances = new Map<string, number>();
   const previous = new Map<string, string | null>();
@@ -25,7 +25,7 @@ export function* generateDijkstraSteps(
     description: `Initialize distances: ${startNodeId} = 0, others = Infinity`,
     indices: [],
     nodeIds: [startNodeId],
-    auxiliaryData: { distances: Object.fromEntries(distances) }
+    auxiliaryData: { distances: Object.fromEntries(distances) },
   };
 
   while (unvisited.size > 0) {
@@ -34,8 +34,8 @@ export function* generateDijkstraSteps(
     let minDistance = Infinity;
 
     for (const nodeId of unvisited) {
-      const dist = distances.get(nodeId)!;
-      if (dist < minDistance) {
+      const dist = distances.get(nodeId);
+      if (dist !== undefined && dist < minDistance) {
         minDistance = dist;
         closestNodeId = nodeId;
       }
@@ -55,7 +55,7 @@ export function* generateDijkstraSteps(
         description: `Reached target node ${closestNodeId} with distance ${minDistance}`,
         indices: [],
         nodeIds: [closestNodeId],
-        auxiliaryData: { distances: Object.fromEntries(distances) }
+        auxiliaryData: { distances: Object.fromEntries(distances) },
       };
       break;
     }
@@ -68,27 +68,32 @@ export function* generateDijkstraSteps(
       description: `Visiting node ${closestNodeId} (distance: ${minDistance})`,
       indices: [],
       nodeIds: [closestNodeId],
-      auxiliaryData: { distances: Object.fromEntries(distances) }
+      auxiliaryData: { distances: Object.fromEntries(distances) },
     };
 
     const neighbors = graph.getEdges(closestNodeId);
 
     for (const edge of neighbors) {
-      if (visited.has(edge.target)) continue;
+      if (visited.has(edge.target)) {continue;}
 
       const weight = edge.weight ?? 1;
-      const alt = distances.get(closestNodeId)! + weight;
-      
+      const currentDistance = distances.get(closestNodeId);
+      if (currentDistance === undefined) {
+        continue;
+      }
+      const alt = currentDistance + weight;
+
       yield {
         type: 'compare',
         description: `Checking neighbor ${edge.target}: new dist ${alt} vs old dist ${distances.get(edge.target)}`,
         indices: [],
         nodeIds: [closestNodeId, edge.target],
         highlightedLines: [{ from: closestNodeId, to: edge.target }],
-        auxiliaryData: { distances: Object.fromEntries(distances) }
+        auxiliaryData: { distances: Object.fromEntries(distances) },
       };
 
-      if (alt < distances.get(edge.target)!) {
+      const targetDistance = distances.get(edge.target);
+      if (targetDistance !== undefined && alt < targetDistance) {
         distances.set(edge.target, alt);
         previous.set(edge.target, closestNodeId);
 
@@ -97,14 +102,15 @@ export function* generateDijkstraSteps(
           description: `Updating distance for ${edge.target} to ${alt}`,
           indices: [],
           nodeIds: [edge.target],
-          auxiliaryData: { distances: Object.fromEntries(distances) }
+          auxiliaryData: { distances: Object.fromEntries(distances) },
         };
       }
     }
   }
 
   // Reconstruct path if endNodeId is provided
-  if (endNodeId && distances.get(endNodeId)! !== Infinity) {
+  const endDistance = distances.get(endNodeId ?? '');
+  if (endNodeId && endDistance !== undefined && endDistance !== Infinity) {
     const path: string[] = [];
     let current: string | null = endNodeId;
     while (current !== null) {
@@ -120,7 +126,7 @@ export function* generateDijkstraSteps(
         indices: [],
         nodeIds: path,
         highlightedLines: path.slice(0, -1).map((node, idx) => ({ from: node, to: path[idx + 1] })),
-        auxiliaryData: { distances: Object.fromEntries(distances) }
+        auxiliaryData: { distances: Object.fromEntries(distances) },
       };
     }
   } else {
@@ -129,7 +135,7 @@ export function* generateDijkstraSteps(
         description: 'Dijkstra algorithm completed',
         indices: [],
         nodeIds: Array.from(visited),
-        auxiliaryData: { distances: Object.fromEntries(distances) }
+        auxiliaryData: { distances: Object.fromEntries(distances) },
       };
   }
 }

@@ -55,7 +55,7 @@ const ControlPanel = ({
             </svg>
           </motion.button>
 
-          <div className="h-8 w-px bg-gray-300 dark:bg-gray-700 mx-1"></div>
+          <div className="h-8 w-px bg-gray-300 dark:bg-gray-700 mx-1" />
 
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -235,7 +235,7 @@ const ControlPanel = ({
             </svg>
           </motion.button>
 
-          <div className="h-8 w-px bg-gray-300 dark:bg-gray-700 mx-1"></div>
+          <div className="h-8 w-px bg-gray-300 dark:bg-gray-700 mx-1" />
 
           <motion.button
             whileHover={{ scale: 1.1 }}

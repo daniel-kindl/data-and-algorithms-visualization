@@ -139,7 +139,7 @@ void quickSort(std::vector<int>& arr, int low, int high) {
         quickSort(arr, low, pivotIndex - 1);
         quickSort(arr, pivotIndex + 1, high);
     }
-}`
+}`,
 };
 
 // Generator function for Quick Sort visualization.
@@ -159,7 +159,7 @@ function* quickSortHelper(arr: number[], low: number, high: number): Generator<A
   if (low < high) {
     // Partition the array and get the pivot index
     const pivotIndex = yield* partition(arr, low, high);
-    
+
     // Recursively sort the sub-arrays
     yield* quickSortHelper(arr, low, pivotIndex - 1);
     yield* quickSortHelper(arr, pivotIndex + 1, high);

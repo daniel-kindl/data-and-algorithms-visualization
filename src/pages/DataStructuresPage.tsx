@@ -51,59 +51,57 @@ interface StructureInfo {
 
 const structureInfo: Record<string, StructureInfo> = {
   array: {
-    description: "An array is a collection of items stored at contiguous memory locations. It allows random access to elements using indices.",
+    description: 'An array is a collection of items stored at contiguous memory locations. It allows random access to elements using indices.',
     characteristics: [
-      "Random access: O(1)",
-      "Insertion/Deletion: O(n)",
-      "Search: O(n) (unsorted)",
-      "Fixed size (static arrays)"
-    ]
+      'Random access: O(1)',
+      'Insertion/Deletion: O(n)',
+      'Search: O(n) (unsorted)',
+      'Fixed size (static arrays)',
+    ],
   },
   stack: {
     description: "A Stack is a linear data structure that follows the LIFO (Last In First Out) principle. Elements are added and removed from the same end, called the 'top'.",
     characteristics: [
-      "Push/Pop: O(1)",
-      "Peek: O(1)",
-      "LIFO (Last In First Out)",
-      "Used in recursion, undo/redo"
-    ]
+      'Push/Pop: O(1)',
+      'Peek: O(1)',
+      'LIFO (Last In First Out)',
+      'Used in recursion, undo/redo',
+    ],
   },
   queue: {
     description: "A Queue is a linear data structure that follows the FIFO (First In First Out) principle. Elements are added at the 'rear' and removed from the 'front'.",
     characteristics: [
-      "Enqueue/Dequeue: O(1)",
-      "Peek: O(1)",
-      "FIFO (First In First Out)",
-      "Used in scheduling, buffering"
-    ]
+      'Enqueue/Dequeue: O(1)',
+      'Peek: O(1)',
+      'FIFO (First In First Out)',
+      'Used in scheduling, buffering',
+    ],
   },
   linkedList: {
-    description: "A Linked List is a linear data structure where elements are stored in nodes. Each node contains a data field and a reference (link) to the next node in the sequence.",
+    description: 'A Linked List is a linear data structure where elements are stored in nodes. Each node contains a data field and a reference (link) to the next node in the sequence.',
     characteristics: [
-      "Dynamic size",
-      "Insertion/Deletion: O(1) (if position known)",
-      "Access/Search: O(n)",
-      "No random access"
-    ]
-  }
+      'Dynamic size',
+      'Insertion/Deletion: O(1) (if position known)',
+      'Access/Search: O(n)',
+      'No random access',
+    ],
+  },
 };
 
 const DataStructuresPage = () => {
   const [selectedStructure, setSelectedStructure] = useState('array');
-  const [selectedOperation, setSelectedOperation] = useState('insert');
+  const [selectedOperation, setSelectedOperation] = useState(() => {
+    // Initialize with first operation for array structure
+    return 'access';
+  });
   const [displayData, setDisplayData] = useState([5, 3, 8, 1, 9, 2]);
   const [inputValue, setInputValue] = useState(10);
   const [inputIndex, setInputIndex] = useState(0);
 
-  // Linked list state
-  const [nodes, setNodes] = useState(new Map());
-  const [head, setHead] = useState(null);
-
-  // Initialize Linked List with default data
-  useEffect(() => {
+  // Linked list state - initialize with default data
+  const [nodes, setNodes] = useState(() => {
     const initialValues = [5, 3, 8, 1, 9, 2];
     const newNodes = new Map();
-    let newHead = null;
     let prevNodeId: string | null = null;
 
     initialValues.forEach((value, index) => {
@@ -116,9 +114,7 @@ const DataStructuresPage = () => {
 
       newNodes.set(nodeId, newNode);
 
-      if (index === 0) {
-        newHead = nodeId;
-      } else if (prevNodeId) {
+      if (prevNodeId) {
         const prevNode = newNodes.get(prevNodeId);
         if (prevNode) {
           prevNode.next = nodeId;
@@ -127,9 +123,9 @@ const DataStructuresPage = () => {
       prevNodeId = nodeId;
     });
 
-    setNodes(newNodes);
-    setHead(newHead);
-  }, []);
+    return newNodes;
+  });
+  const [head, setHead] = useState<string | null>('node-0');
 
   // Animation state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -149,7 +145,7 @@ const DataStructuresPage = () => {
   const visualizerRef = useRef<HTMLDivElement>(null);
 
   // Get available operations based on selected structure
-  const getOperations = () => {
+  const getOperations = useCallback(() => {
     switch (selectedStructure) {
       case 'array':
         return ['access', 'insert', 'delete', 'search', 'update'];
@@ -171,7 +167,7 @@ const DataStructuresPage = () => {
       default:
         return [];
     }
-  };
+  }, [selectedStructure]);
 
   // Helper to filter step types to valid visualizer types
   const toValidHighlightType = (type: string): 'insert' | 'delete' | 'search' | 'compare' | 'swap' | 'sorted' | 'active' | 'highlight' | 'minimum' => {
@@ -186,13 +182,13 @@ const DataStructuresPage = () => {
       'search',
       'minimum',
     ];
-    return validTypes.includes(type) ? (type as any) : 'active';
+    return validTypes.includes(type) ? (type as 'insert' | 'delete' | 'search' | 'compare' | 'swap' | 'sorted' | 'active' | 'highlight' | 'minimum') : 'active';
   };
 
   // Reset operation and data when structure changes
   useEffect(() => {
     const operations = getOperations();
-    if (operations.length > 0) {
+    if (operations.length > 0 && operations[0] !== selectedOperation) {
       setSelectedOperation(operations[0]);
     }
 
@@ -240,6 +236,7 @@ const DataStructuresPage = () => {
     } else {
       setDisplayData(randomData);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- getOperations is derived from structure-specific config and doesn't need to be a dependency
   }, [selectedStructure]);
 
   // Execute the selected operation on the data structure.
@@ -367,7 +364,7 @@ const DataStructuresPage = () => {
         for (const step of generator) {
           steps.push(step);
           if ('newHead' in step && step.newHead !== undefined) {
-            newHead = step.newHead as any;
+            newHead = step.newHead as string | null;
           }
         }
         setNodes(workingNodes);
@@ -430,7 +427,7 @@ const DataStructuresPage = () => {
   }, [currentStep, animationSpeed, displayData, selectedStructure]);
 
   useEffect(() => {
-    if (isPlaying && !isPaused) {
+    if (isPlaying && !isPaused && currentStep < stepsRef.current.length) {
       playAnimation();
     }
 
@@ -439,7 +436,8 @@ const DataStructuresPage = () => {
         clearTimeout(animationTimeoutRef.current);
       }
     };
-  }, [isPlaying, isPaused, currentStep, playAnimation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- playAnimation is stable callback and including it would cause infinite loops
+  }, [isPlaying, isPaused]);
 
   const handleReset = () => {
     if (animationTimeoutRef.current) {
@@ -613,7 +611,7 @@ const DataStructuresPage = () => {
           <ul className="mt-1 grid grid-cols-2 gap-2">
             {structureInfo[selectedStructure].characteristics.map((char, idx) => (
               <li key={idx} className="text-xs flex items-center gap-1.5 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded border border-gray-100 dark:border-gray-700">
-                <div className="w-1 h-1 rounded-full bg-blue-500"></div>
+                <div className="w-1 h-1 rounded-full bg-blue-500" />
                 {char}
               </li>
             ))}
@@ -641,7 +639,7 @@ const DataStructuresPage = () => {
           <StackVisualizer
             data={displayData}
             highlightIndices={highlightIndices}
-            highlightType={highlightType as any}
+            highlightType={highlightType as 'active' | 'compare' | 'highlight' | 'sorted'}
             title="Visualization"
             explanation={explanationElement}
           >
@@ -654,7 +652,7 @@ const DataStructuresPage = () => {
           <QueueVisualizer
             data={displayData}
             highlightIndices={highlightIndices}
-            highlightType={highlightType as any}
+            highlightType={highlightType as 'active' | 'compare' | 'highlight' | 'sorted'}
             title="Visualization"
             explanation={explanationElement}
           >
@@ -668,7 +666,7 @@ const DataStructuresPage = () => {
             nodes={nodes}
             head={head}
             highlightIndices={highlightIndices}
-            highlightType={highlightType as any}
+            highlightType={highlightType as 'active' | 'compare' | 'highlight' | 'sorted'}
             title="Visualization"
             explanation={explanationElement}
           >
@@ -951,12 +949,12 @@ const DataStructuresPage = () => {
                         r="10"
                         stroke="currentColor"
                         strokeWidth="4"
-                      ></circle>
+                       />
                       <path
                         className="opacity-75"
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
+                       />
                     </svg>
                     Running...
                   </>

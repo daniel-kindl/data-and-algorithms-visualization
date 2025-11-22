@@ -14,7 +14,7 @@ describe('Stack Operations', () => {
       const stack: number[] = [];
       Array.from(stackPush(stack, 1));
       expect(stack).toEqual([1]);
-      
+
       Array.from(stackPush(stack, 2));
       expect(stack).toEqual([1, 2]);
     });
@@ -23,7 +23,7 @@ describe('Stack Operations', () => {
       const stack: number[] = [1, 2];
       const capacity = 2;
       const steps = Array.from(stackPush(stack, 3, capacity));
-      
+
       expect(stack).toEqual([1, 2]); // Should not change
       expect(steps[0].description).toContain('Stack Overflow');
     });
@@ -34,7 +34,7 @@ describe('Stack Operations', () => {
       const stack = [1, 2];
       Array.from(stackPop(stack));
       expect(stack).toEqual([1]);
-      
+
       Array.from(stackPop(stack));
       expect(stack).toEqual([]);
     });
@@ -42,7 +42,7 @@ describe('Stack Operations', () => {
     it('should handle empty stack', () => {
       const stack: number[] = [];
       const steps = Array.from(stackPop(stack));
-      
+
       expect(steps[0].description).toContain('Stack Underflow');
     });
   });
@@ -51,7 +51,7 @@ describe('Stack Operations', () => {
     it('should peek top element', () => {
       const stack = [1, 2];
       const steps = Array.from(stackPeek(stack));
-      
+
       expect(steps.some(s => s.description.includes('Top element is 2'))).toBe(true);
       expect(stack).toEqual([1, 2]); // Should not modify stack
     });
@@ -59,7 +59,7 @@ describe('Stack Operations', () => {
     it('should handle empty stack', () => {
       const stack: number[] = [];
       const steps = Array.from(stackPeek(stack));
-      
+
       expect(steps[0].description).toContain('Stack is empty');
     });
   });
@@ -68,21 +68,21 @@ describe('Stack Operations', () => {
     it('should find element in stack', () => {
       const stack = [1, 2, 3];
       const steps = Array.from(stackSearch(stack, 2));
-      
+
       expect(steps.some(s => s.type === 'search')).toBe(true);
     });
 
     it('should not find missing element', () => {
       const stack = [1, 2, 3];
       const steps = Array.from(stackSearch(stack, 4));
-      
+
       expect(steps.some(s => s.description.includes('not found'))).toBe(true);
     });
 
     it('should handle empty stack', () => {
       const stack: number[] = [];
       const steps = Array.from(stackSearch(stack, 1));
-      
+
       expect(steps[0].description).toContain('Stack is empty');
     });
   });
@@ -91,14 +91,14 @@ describe('Stack Operations', () => {
     it('should correctly identify empty stack', () => {
       const stack: number[] = [];
       const steps = Array.from(stackIsEmpty(stack));
-      
+
       expect(steps.some(s => s.description.includes('Stack is EMPTY'))).toBe(true);
     });
 
     it('should correctly identify non-empty stack', () => {
       const stack = [1];
       const steps = Array.from(stackIsEmpty(stack));
-      
+
       expect(steps.some(s => s.description.includes('Stack is NOT EMPTY'))).toBe(true);
     });
   });
@@ -107,7 +107,7 @@ describe('Stack Operations', () => {
     it('should return correct size', () => {
       const stack = [1, 2, 3];
       const steps = Array.from(stackSize(stack));
-      
+
       expect(steps.some(s => s.description.includes('Stack size: 3'))).toBe(true);
     });
   });

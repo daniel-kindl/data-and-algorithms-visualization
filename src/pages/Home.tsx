@@ -9,9 +9,9 @@ const Home = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
@@ -20,17 +20,17 @@ const Home = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5
-      }
-    }
+        duration: 0.5,
+      },
+    },
   };
 
   return (
     <div className="space-y-16 pb-12">
       {/* Hero Section */}
       <section className="text-center space-y-6 py-12 md:py-20 relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent dark:from-blue-900/20 dark:via-transparent dark:to-transparent blur-3xl"></div>
-        
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent dark:from-blue-900/20 dark:via-transparent dark:to-transparent blur-3xl" />
+
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -40,7 +40,7 @@ const Home = () => {
           Interactive Learning Platform
         </motion.div>
 
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -52,7 +52,7 @@ const Home = () => {
           </span>
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -85,11 +85,11 @@ const Home = () => {
       </section>
 
       {/* Categories Section */}
-      <motion.section 
+      <motion.section
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: '-100px' }}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <MotionLink
@@ -104,20 +104,21 @@ const Home = () => {
               <path d="M3 7h18M3 12h18M3 17h18" />
             </svg>
           </div>
-          
+
           <div className="relative z-10 space-y-4">
             <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
               </svg>
             </div>
-            
+
             <div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 Sorting Algorithms
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                Visualize how different algorithms sort data. Compare efficiency and understand the mechanics of Bubble, Quick, Merge Sort, and more.
+                Visualize how different algorithms sort data. Compare efficiency and
+                {' '}understand the mechanics of Bubble, Quick, Merge Sort, and more.
               </p>
             </div>
 
@@ -150,13 +151,14 @@ const Home = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div>
-            
+
             <div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                 Linear Structures
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                Explore the building blocks of data organization. Interact with Arrays, Linked Lists, Stacks, and Queues to see how they manage data.
+                Explore the building blocks of data organization. Interact with Arrays,
+                {' '}Linked Lists, Stacks, and Queues to see how they manage data.
               </p>
             </div>
 
@@ -189,13 +191,14 @@ const Home = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            
+
             <div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 Advanced Structures
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                Master complex hierarchical data structures. Visualize Trees, Heaps, and Hash Tables to understand efficient data storage and retrieval.
+                Master complex hierarchical data structures. Visualize Trees, Heaps,
+                {' '}and Hash Tables to understand efficient data storage and retrieval.
               </p>
             </div>
 
@@ -215,38 +218,39 @@ const Home = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Why Use This Visualizer?</h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Designed to bridge the gap between theoretical concepts and practical understanding through interactive learning.
+            Designed to bridge the gap between theoretical concepts and practical
+            {' '}understanding through interactive learning.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              title: "Step-by-Step Execution",
-              desc: "Control the flow of algorithms. Pause, rewind, and step through each operation to see exactly what happens at every stage.",
+              title: 'Step-by-Step Execution',
+              desc: 'Control the flow of algorithms. Pause, rewind, and step through each operation to see exactly what happens at every stage.',
               icon: (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
               ),
-              color: "text-blue-500"
+              color: 'text-blue-500',
             },
             {
-              title: "Real-time Code Tracking",
-              desc: "Watch the code execute line by line. The visualizer highlights the active line of code corresponding to the current animation step.",
+              title: 'Real-time Code Tracking',
+              desc: 'Watch the code execute line by line. The visualizer highlights the active line of code corresponding to the current animation step.',
               icon: (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               ),
-              color: "text-purple-500"
+              color: 'text-purple-500',
             },
             {
-              title: "Complexity Analysis",
-              desc: "Learn about Time complexity. Each algorithm comes with detailed Big O notation analysis for best, average, and worst cases.",
+              title: 'Complexity Analysis',
+              desc: 'Learn about Time complexity. Each algorithm comes with detailed Big O notation analysis for best, average, and worst cases.',
               icon: (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               ),
-              color: "text-emerald-500"
-            }
+              color: 'text-emerald-500',
+            },
           ].map((feature, idx) => (
-            <motion.div 
+            <motion.div
               key={idx}
               whileHover={{ y: -5 }}
               className="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"

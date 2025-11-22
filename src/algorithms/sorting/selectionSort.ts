@@ -122,7 +122,7 @@ export const selectionSortCode = {
             std::swap(arr[i], arr[minIndex]);
         }
     }
-}`
+}`,
 };
 
 // Generator function for Selection Sort visualization.

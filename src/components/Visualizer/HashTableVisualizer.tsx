@@ -43,19 +43,19 @@ export default function HashTableVisualizer({
   const legend = (
     <>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600" />
         <span className="text-gray-600 dark:text-gray-400">Empty</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600" />
         <span className="text-gray-600 dark:text-gray-400">Occupied</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-emerald-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-emerald-600" />
         <span className="text-gray-600 dark:text-gray-400">Active</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-amber-500 border border-amber-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-amber-500 border border-amber-600" />
         <span className="text-gray-600 dark:text-gray-400">Compare</span>
       </div>
     </>
@@ -156,9 +156,11 @@ function drawHashTable(
     ctx.fillText(`[${i}]`, x + CELL_WIDTH / 2, y - 5);
 
     // Draw content
-    ctx.fillStyle = highlightedIndices.includes(i) || comparedIndices.includes(i) || activeIndices.includes(i)
-      ? '#FFFFFF'
-      : textColor;
+    const isHighlighted =
+      highlightedIndices.includes(i) ||
+      comparedIndices.includes(i) ||
+      activeIndices.includes(i);
+    ctx.fillStyle = isHighlighted ? '#FFFFFF' : textColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 

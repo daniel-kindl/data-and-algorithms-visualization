@@ -21,12 +21,12 @@ function App() {
     <ThemeProvider>
       <Router basename={basename}>
         <Layout>
-          {/* Suspense is required when using lazy-loaded components. 
+          {/* Suspense is required when using lazy-loaded components.
               It shows a fallback UI (spinner) while the component code is being fetched. */}
           <Suspense
             fallback={
               <div className="flex items-center justify-center h-[calc(100vh-64px)]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600" />
               </div>
             }
           >

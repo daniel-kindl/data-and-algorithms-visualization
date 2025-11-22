@@ -23,7 +23,7 @@ describe('helpers utility functions', () => {
     it('should generate different arrays on multiple calls', () => {
       const arr1 = generateRandomArray(10);
       const arr2 = generateRandomArray(10);
-      
+
       // Arrays should be different (statistically very unlikely to be the same)
       expect(arr1).not.toEqual(arr2);
     });

@@ -10,22 +10,18 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>(() => {
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    return savedTheme || 'dark';
+  });
 
   useEffect(() => {
-    // Initialize theme on mount.
-    // We check localStorage first to respect user's previous choice.
-    // Default to 'dark' if no preference is found.
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    const initialTheme = savedTheme || 'dark';
-    setTheme(initialTheme);
-    
-    // Clean up any existing classes and apply the initial theme.
-    // This ensures the DOM is in sync with the state immediately.
+    // Apply the initial theme class immediately on mount.
+    // This ensures the DOM is in sync with the state.
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
-    root.classList.add(initialTheme);
-  }, []);
+    root.classList.add(theme);
+  }, [theme]);
 
   useEffect(() => {
     // Update the DOM whenever the theme state changes.
@@ -33,7 +29,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-    
+
     // Persist the choice so it survives page reloads.
     localStorage.setItem('theme', theme);
   }, [theme]);

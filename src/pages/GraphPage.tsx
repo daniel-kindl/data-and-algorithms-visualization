@@ -12,23 +12,23 @@ import type { AnimationStep, AnimationSpeed } from '../types';
 const ALGORITHMS = {
   bfs: { name: 'Breadth-First Search', info: bfsInfo, run: bfs },
   dfs: { name: 'Depth-First Search', info: dfsInfo, run: dfs },
-  dijkstra: { 
-    name: 'Dijkstra\'s Algorithm', 
+  dijkstra: {
+    name: 'Dijkstra\'s Algorithm',
     info: {
       name: 'Dijkstra\'s Algorithm',
       category: 'graph',
       complexity: {
         time: { best: 'O(E log V)', average: 'O(E log V)', worst: 'O(E log V)' },
-        space: 'O(V + E)'
+        space: 'O(V + E)',
       },
       timeComplexityDetails: {
         best: 'With a priority queue, we process each edge once. Heap operations take logarithmic time.',
         average: 'Typical performance on random graphs. E edges are processed, each taking O(log V) time.',
-        worst: 'In a dense graph, we process all edges. Each edge relaxation involves a priority queue update taking O(log V).'
+        worst: 'In a dense graph, we process all edges. Each edge relaxation involves a priority queue update taking O(log V).',
       },
-      description: 'Finds the shortest path from a source node to all other nodes in a weighted graph.'
-    }, 
-    run: generateDijkstraSteps 
+      description: 'Finds the shortest path from a source node to all other nodes in a weighted graph.',
+    },
+    run: generateDijkstraSteps,
   },
 };
 
@@ -37,15 +37,18 @@ const GRAPH_HEIGHT = 400;
 
 export default function GraphPage() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<keyof typeof ALGORITHMS>('bfs');
-  const [graph, setGraph] = useState<Graph>(new Graph());
-  
+  const [graph, setGraph] = useState<Graph>(() => {
+    // Initialize with empty graph, will be populated by generateRandomGraph
+    return new Graph();
+  });
+
   // Animation State
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [speed, setSpeed] = useState<AnimationSpeed>(1);
   const [description, setDescription] = useState<string>('Ready to start');
-  
+
   // Visual State
   const [activeNodes, setActiveNodes] = useState<string[]>([]);
   const [visitedNodes, setVisitedNodes] = useState<string[]>([]);
@@ -55,6 +58,22 @@ export default function GraphPage() {
 
   const stepsRef = useRef<AnimationStep[]>([]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const resetVisuals = () => {
+    setActiveNodes([]);
+    setVisitedNodes([]);
+    setPathNodes([]);
+    setComparedNodes([]);
+    setDistances({});
+  };
+
+  const handleReset = useCallback(() => {
+    setIsPlaying(false);
+    setCurrentStep(0);
+    resetVisuals();
+    setDescription('Ready to start');
+    if (timeoutRef.current) {clearTimeout(timeoutRef.current);}
+  }, []);
 
   // Initialize graph
   const generateRandomGraph = useCallback(() => {
@@ -67,7 +86,7 @@ export default function GraphPage() {
     // Grid Layout
     const cols = 4;
     const rows = 4;
-    
+
     // Calculate spacing to use full width/height with margins
     const marginX = 40;
     const marginY = 40;
@@ -79,10 +98,10 @@ export default function GraphPage() {
     for (let i = 0; i < nodeCount; i++) {
       const col = i % cols;
       const row = Math.floor(i / cols);
-      
+
       const x = marginX + (col * stepX);
       const y = marginY + (row * stepY);
-      
+
       newGraph.addNode(i.toString(), i.toString(), x, y);
     }
 
@@ -119,15 +138,20 @@ export default function GraphPage() {
 
     setGraph(newGraph);
     handleReset();
-  }, [selectedAlgorithm]);
+  }, [selectedAlgorithm, handleReset]);
+
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    generateRandomGraph();
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      generateRandomGraph();
+    }
   }, [generateRandomGraph]);
 
   // Generate steps when graph or algorithm changes
   useEffect(() => {
-    if (graph.nodes.size === 0) return;
+    if (graph.nodes.size === 0 || isInitialMount.current) {return;}
 
     const generator = ALGORITHMS[selectedAlgorithm].run(graph, '0');
     const steps: AnimationStep[] = [];
@@ -137,33 +161,26 @@ export default function GraphPage() {
     stepsRef.current = steps;
     setTotalSteps(steps.length);
     handleReset();
-  }, [graph, selectedAlgorithm]);
-
-  const resetVisuals = () => {
-    setActiveNodes([]);
-    setVisitedNodes([]);
-    setPathNodes([]);
-    setComparedNodes([]);
-    setDistances({});
-  };
+  }, [graph, selectedAlgorithm, handleReset]);
 
   const applyStep = (step: AnimationStep) => {
     setDescription(step.description);
 
-    if (step.auxiliaryData && step.auxiliaryData.distances) {
-      setDistances(step.auxiliaryData.distances);
+    if (step.auxiliaryData && 'distances' in step.auxiliaryData) {
+      const distances = step.auxiliaryData['distances'] as Record<string, number>;
+      setDistances(distances);
     }
 
     if (step.nodeIds) {
       if (step.type === 'active') {
         setActiveNodes(step.nodeIds);
       } else if (step.type === 'visited') {
-        setVisitedNodes((prev) => [...new Set([...prev, ...step.nodeIds!])]);
+        setVisitedNodes((prev) => [...new Set([...prev, ...(step.nodeIds ?? [])])]);
         setActiveNodes([]);
       } else if (step.type === 'compare') {
         setComparedNodes(step.nodeIds);
       } else if (step.type === 'sorted') {
-        setVisitedNodes((prev) => [...new Set([...prev, ...step.nodeIds!])]);
+        setVisitedNodes((prev) => [...new Set([...prev, ...(step.nodeIds ?? [])])]);
         setActiveNodes([]);
         setComparedNodes([]);
       } else if (step.type === 'highlight') {
@@ -174,14 +191,6 @@ export default function GraphPage() {
         setPathNodes(step.nodeIds);
       }
     }
-  };
-
-  const handleReset = () => {
-    setIsPlaying(false);
-    setCurrentStep(0);
-    resetVisuals();
-    setDescription('Ready to start');
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
   };
 
   const handleStepForward = () => {
@@ -195,7 +204,7 @@ export default function GraphPage() {
     if (currentStep > 0) {
       const newStep = currentStep - 1;
       setCurrentStep(newStep);
-      
+
       // Replay from beginning to restore state
       resetVisuals();
       for (let i = 0; i < newStep; i++) {
@@ -225,7 +234,7 @@ export default function GraphPage() {
     }, delay);
 
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) {clearTimeout(timeoutRef.current);}
     };
   }, [isPlaying, currentStep, totalSteps, speed]);
 
@@ -251,7 +260,7 @@ export default function GraphPage() {
             </h2>
           </div>
           <div className="flex flex-wrap gap-2 mb-6">
-            {(Object.keys(ALGORITHMS) as Array<keyof typeof ALGORITHMS>).map((algo) => (
+            {(Object.keys(ALGORITHMS) as (keyof typeof ALGORITHMS)[]).map((algo) => (
               <button
                 key={algo}
                 onClick={() => {
@@ -276,7 +285,7 @@ export default function GraphPage() {
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
               {ALGORITHMS[selectedAlgorithm].info.description}
             </p>
-            
+
             <div className="grid grid-cols-1 gap-3 text-xs">
               <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
                 <span className="font-semibold block mb-1 text-gray-500 dark:text-gray-400">Time Complexity (Average)</span>
@@ -308,7 +317,7 @@ export default function GraphPage() {
                     </svg>
                     Generate New Random Graph
                 </button>
-                
+
                 <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-3 border border-gray-100 dark:border-gray-800">
                     <div className="flex items-center gap-2 mb-2">
                         <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -317,7 +326,8 @@ export default function GraphPage() {
                         <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Info</span>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                        Graph generation creates a random set of nodes and edges. Weighted graphs are used for Dijkstra's algorithm.
+                        Graph generation creates a random set of nodes and edges.
+                        {' '}Weighted graphs are used for Dijkstra's algorithm.
                     </p>
                 </div>
             </div>

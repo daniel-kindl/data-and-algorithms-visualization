@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { AnimationStep, AnimationSpeed } from '../types';
 import ControlPanel from '../components/Controls/ControlPanel';
@@ -51,41 +51,41 @@ type StructureType = 'binaryTree' | 'bst' | 'heap' | 'hashTable';
 
 const structureInfo = {
   binaryTree: {
-    description: "A Binary Tree is a hierarchical data structure where each node has at most two children, referred to as the left child and the right child.",
+    description: 'A Binary Tree is a hierarchical data structure where each node has at most two children, referred to as the left child and the right child.',
     characteristics: [
-      "Hierarchical structure",
-      "Max 2 children per node",
-      "Used in expression parsers",
-      "Basis for BST and Heaps"
-    ]
+      'Hierarchical structure',
+      'Max 2 children per node',
+      'Used in expression parsers',
+      'Basis for BST and Heaps',
+    ],
   },
   bst: {
-    description: "A Binary Search Tree (BST) is a binary tree where the left child contains only nodes with values less than the parent, and the right child only nodes with values greater than the parent.",
+    description: 'A Binary Search Tree (BST) is a binary tree where the left child contains only nodes with values less than the parent, and the right child only nodes with values greater than the parent.',
     characteristics: [
-      "Ordered structure",
-      "Search: O(log n) average",
-      "Insert/Delete: O(log n)",
-      "In-order traversal yields sorted list"
-    ]
+      'Ordered structure',
+      'Search: O(log n) average',
+      'Insert/Delete: O(log n)',
+      'In-order traversal yields sorted list',
+    ],
   },
   heap: {
-    description: "A Heap is a specialized tree-based data structure that satisfies the heap property. In a Min Heap, the parent is always smaller than its children.",
+    description: 'A Heap is a specialized tree-based data structure that satisfies the heap property. In a Min Heap, the parent is always smaller than its children.',
     characteristics: [
-      "Complete Binary Tree",
-      "Min/Max access: O(1)",
-      "Insert/Extract: O(log n)",
-      "Used in Priority Queues"
-    ]
+      'Complete Binary Tree',
+      'Min/Max access: O(1)',
+      'Insert/Extract: O(log n)',
+      'Used in Priority Queues',
+    ],
   },
   hashTable: {
-    description: "A Hash Table implements an associative array abstract data type, a structure that can map keys to values using a hash function.",
+    description: 'A Hash Table implements an associative array abstract data type, a structure that can map keys to values using a hash function.',
     characteristics: [
-      "Key-Value pairs",
-      "Average Access: O(1)",
-      "Handles collisions",
-      "Dynamic resizing"
-    ]
-  }
+      'Key-Value pairs',
+      'Average Access: O(1)',
+      'Handles collisions',
+      'Dynamic resizing',
+    ],
+  },
 };
 
 export default function AdvancedStructuresPage() {
@@ -134,13 +134,12 @@ export default function AdvancedStructuresPage() {
   // Initialize with default data
   // useEffect(() => { ... }) removed as it is redundant with the effect below
 
-
   // Reset states when structure changes - using key prop on component instead
   // to avoid setState in effect antipattern
 
   // Update default operation and reset data when structure changes
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Necessary for operation initialization
+
     setSelectedOperation('insert');
 
     // Reset animation state
@@ -168,7 +167,7 @@ export default function AdvancedStructuresPage() {
       for (const value of randomData) {
         const generator = bstInsert(newTreeNodes, newTreeRoot, value);
         let result: IteratorResult<AnimationStep & { newRoot?: string; newNodeId?: string }>;
-        // eslint-disable-next-line no-cond-assign
+
         while (!(result = generator.next()).done) {
           if (result.value.newRoot) {
             newTreeRoot = result.value.newRoot;
@@ -189,7 +188,7 @@ export default function AdvancedStructuresPage() {
 
       for (const key of hashKeys) {
         const generator = hashTableInsert(initialHashTableState, key, key * 10);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
         for (const _ of generator) {
           // consume
         }
@@ -198,10 +197,11 @@ export default function AdvancedStructuresPage() {
     }
   }, [selectedStructure]);
 
+  const generateRandomSize = useCallback(() => Math.floor(Math.random() * 6) + 5, []);
+
   const handleRandomize = () => {
     handleReset();
-    const size = Math.floor(Math.random() * 6) + 5;
-    const randomData = generateRandomArray(size, 1, 99);
+    const randomData = generateRandomArray(generateRandomSize(), 1, 99);
 
     if (selectedStructure === 'heap') {
       setHeapData(randomData);
@@ -216,7 +216,7 @@ export default function AdvancedStructuresPage() {
       for (const value of randomData) {
         const generator = bstInsert(newTreeNodes, newTreeRoot, value);
         let result: IteratorResult<AnimationStep & { newRoot?: string; newNodeId?: string }>;
-        // eslint-disable-next-line no-cond-assign
+
         while (!(result = generator.next()).done) {
           if (result.value.newRoot) {
             newTreeRoot = result.value.newRoot;
@@ -240,7 +240,7 @@ export default function AdvancedStructuresPage() {
 
       for (const value of randomData) {
         const generator = hashTableInsert(newState, value, value * 10);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
         for (const _ of generator) {
           // consume
         }
@@ -402,9 +402,9 @@ export default function AdvancedStructuresPage() {
     }
   };
 
-  const updateVisualizationState = (stepIndex: number) => {
+  const updateVisualizationState = useCallback((stepIndex: number) => {
     if (stepIndex >= steps.length) {return;}
-    
+
     const step = steps[stepIndex];
     setDescription(step.description);
 
@@ -420,12 +420,12 @@ export default function AdvancedStructuresPage() {
       setHighlightedNodes(
         step.type === 'highlight' || step.type === 'sorted' || step.type === 'search' || step.type === 'insert'
           ? (step.nodeIds || [])
-          : []
+          : [],
       );
       setComparedNodes(step.type === 'compare' ? (step.nodeIds || []) : []);
       setActiveNodes(step.type === 'active' ? (step.nodeIds || []) : []);
     }
-  };
+  }, [steps, selectedStructure]);
 
   // Animation effect
   useEffect(() => {
@@ -451,7 +451,7 @@ export default function AdvancedStructuresPage() {
         clearTimeout(animationTimeoutRef.current);
       }
     };
-  }, [isPlaying, isPaused, currentStep, steps, speed, selectedStructure]);
+  }, [isPlaying, isPaused, currentStep, steps, speed, selectedStructure, updateVisualizationState]);
 
   const handleReset = () => {
     if (animationTimeoutRef.current) {
@@ -582,7 +582,7 @@ export default function AdvancedStructuresPage() {
           <ul className="mt-1 grid grid-cols-2 gap-2">
             {structureInfo[selectedStructure].characteristics.map((char, idx) => (
               <li key={idx} className="text-xs flex items-center gap-1.5 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded border border-gray-100 dark:border-gray-700">
-                <div className="w-1 h-1 rounded-full bg-purple-500"></div>
+                <div className="w-1 h-1 rounded-full bg-purple-500" />
                 {char}
               </li>
             ))}
@@ -856,12 +856,12 @@ export default function AdvancedStructuresPage() {
                         r="10"
                         stroke="currentColor"
                         strokeWidth="4"
-                      ></circle>
+                       />
                       <path
                         className="opacity-75"
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
+                       />
                     </svg>
                     Running...
                   </>

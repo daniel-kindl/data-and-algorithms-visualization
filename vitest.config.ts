@@ -12,8 +12,8 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: ['node_modules/', 'src/test/', '**/*.d.ts', '**/*.config.*', '**/mockData', '**/*.spec.ts', '**/*.test.ts', '**/*.spec.tsx', '**/*.test.tsx']
-    }
+      exclude: ['node_modules/', 'src/test/', '**/*.d.ts', '**/*.config.*', '**/mockData', '**/*.spec.ts', '**/*.test.ts', '**/*.spec.tsx', '**/*.test.tsx'],
+    },
   },
   resolve: {
     alias: {
@@ -25,7 +25,7 @@ export default defineConfig({
       '@types': path.resolve(__dirname, './src/types'),
       '@algorithms': path.resolve(__dirname, './src/algorithms'),
       '@dataStructures': path.resolve(__dirname, './src/dataStructures'),
-      '@context': path.resolve(__dirname, './src/context')
-    }
-  }
+      '@context': path.resolve(__dirname, './src/context'),
+    },
+  },
 });

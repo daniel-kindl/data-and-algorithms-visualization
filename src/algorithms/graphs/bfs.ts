@@ -23,9 +23,9 @@ export const bfsInfo = {
 
 export function* bfs(
   graph: Graph,
-  startNodeId: string
+  startNodeId: string,
 ): Generator<AnimationStep> {
-  if (!graph.nodes.has(startNodeId)) return;
+  if (!graph.nodes.has(startNodeId)) {return;}
 
   const visited = new Set<string>();
   const queue: string[] = [startNodeId];
@@ -41,8 +41,11 @@ export function* bfs(
   };
 
   while (queue.length > 0) {
-    const currentNodeId = queue.shift()!;
-    
+    const currentNodeId = queue.shift();
+    if (!currentNodeId) {
+      continue;
+    }
+
     yield {
       type: 'active',
       indices: [],
@@ -51,7 +54,7 @@ export function* bfs(
     };
 
     const neighbors = graph.getNeighbors(currentNodeId);
-    
+
     // Sort neighbors for consistent traversal order (optional but good for visualization).
     // This ensures the animation is deterministic and easier to follow.
     neighbors.sort();
@@ -68,7 +71,7 @@ export function* bfs(
           nodeIds: [neighborId],
           description: `Discovered neighbor ${neighborId}, adding to queue`,
         };
-        
+
         // Visualize the edge traversal
         yield {
           type: 'compare', // Using compare to highlight edge
@@ -78,7 +81,7 @@ export function* bfs(
         };
       }
     }
-    
+
     yield {
       type: 'visited',
       indices: [],

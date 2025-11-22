@@ -184,7 +184,7 @@ void heapSort(std::vector<int>& arr) {
         std::swap(arr[0], arr[i]);
         heapify(arr, i, 0);
     }
-}`
+}`,
 };
 
 export function* heapSort(arr: number[]): Generator<AnimationStep> {

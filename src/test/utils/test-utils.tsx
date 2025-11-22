@@ -1,5 +1,4 @@
-import { render as rtlRender } from '@testing-library/react';
-import type { RenderOptions } from '@testing-library/react';
+import { render as rtlRender, type RenderOptions } from '@testing-library/react';
 import type { ReactElement, ReactNode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@context/ThemeContext';
@@ -26,10 +25,12 @@ export function renderWithProviders(
       </BrowserRouter>
     );
   }
+  Wrapper.displayName = 'TestWrapper';
 
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }
 
 // Re-export everything from testing library
+/* eslint-disable react-refresh/only-export-components -- Test utilities file exports both helpers and re-exports */
 export * from '@testing-library/react';
 export { renderWithProviders as render };

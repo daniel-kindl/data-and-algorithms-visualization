@@ -36,7 +36,7 @@ describe('quickSort', () => {
   it('should generate animation steps', () => {
     const arr = [3, 1, 2];
     const steps = Array.from(quickSort(arr));
-    
+
     const stepTypes = steps.map(s => s.type);
     expect(stepTypes).toContain('compare');
     expect(stepTypes).toContain('sorted');

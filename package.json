@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint . -c config/eslint.config.js",
+    "lint": "eslint . -c config/eslint.config.js --max-warnings=0",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",

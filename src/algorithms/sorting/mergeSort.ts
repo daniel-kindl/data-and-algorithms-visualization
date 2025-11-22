@@ -164,7 +164,7 @@ void mergeSort(std::vector<int>& arr, int left, int right) {
     mergeSort(arr, left, mid);
     mergeSort(arr, mid + 1, right);
     merge(arr, left, mid, right);
-}`
+}`,
 };
 
 // Generator function for Merge Sort visualization.
@@ -188,7 +188,7 @@ function* mergeSortHelper(arr: number[], start: number, end: number): Generator<
   // Recursively sort left and right halves
   yield* mergeSortHelper(arr, start, mid);
   yield* mergeSortHelper(arr, mid + 1, end);
-  
+
   // Merge the sorted halves
   yield* merge(arr, start, mid, end);
 }

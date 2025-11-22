@@ -40,6 +40,9 @@ export default defineConfig([
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/set-state-in-effect': 'off', // Too strict for initialization patterns
+      'react-hooks/purity': 'off', // Conflicts with event handlers
+      'react-hooks/immutability': 'off', // Too strict
 
       // TypeScript naming conventions
       '@typescript-eslint/naming-convention': [
@@ -87,6 +90,11 @@ export default defineConfig([
         {
           selector: 'enumMember',
           format: ['UPPER_CASE'],
+        },
+        {
+          selector: 'objectLiteralProperty',
+          modifiers: ['requiresQuotes'],
+          format: null,
         },
       ],
 

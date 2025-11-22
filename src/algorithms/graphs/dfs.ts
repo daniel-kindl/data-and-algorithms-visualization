@@ -23,9 +23,9 @@ export const dfsInfo = {
 
 export function* dfs(
   graph: Graph,
-  startNodeId: string
+  startNodeId: string,
 ): Generator<AnimationStep> {
-  if (!graph.nodes.has(startNodeId)) return;
+  if (!graph.nodes.has(startNodeId)) {return;}
 
   const visited = new Set<string>();
   const stack: string[] = [startNodeId];
@@ -38,7 +38,10 @@ export function* dfs(
   };
 
   while (stack.length > 0) {
-    const currentNodeId = stack.pop()!;
+    const currentNodeId = stack.pop();
+    if (!currentNodeId) {
+      continue;
+    }
 
     if (!visited.has(currentNodeId)) {
       visited.add(currentNodeId);
@@ -57,7 +60,7 @@ export function* dfs(
       for (const neighborId of neighbors) {
         if (!visited.has(neighborId)) {
           stack.push(neighborId);
-          
+
           yield {
             type: 'compare',
             indices: [],

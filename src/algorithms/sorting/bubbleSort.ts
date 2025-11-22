@@ -124,7 +124,7 @@ export const bubbleSortCode = {
         // If no swaps, array is sorted
         if (!swapped) break;
     }
-}`
+}`,
 };
 
 // Generator function that yields AnimationSteps.

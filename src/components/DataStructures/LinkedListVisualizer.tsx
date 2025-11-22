@@ -69,19 +69,19 @@ const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({
   const legend = (
     <>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
         <span className="text-gray-600 dark:text-gray-400">Normal</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
         <span className="text-gray-600 dark:text-gray-400">Insert</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
         <span className="text-gray-600 dark:text-gray-400">Delete</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
         <span className="text-gray-600 dark:text-gray-400">Search</span>
       </div>
     </>

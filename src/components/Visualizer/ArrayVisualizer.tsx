@@ -64,19 +64,19 @@ const ArrayVisualizer = ({
   const legend = (
     <>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-blue-500 dark:bg-blue-600 border border-blue-600 dark:border-blue-400"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-blue-500 dark:bg-blue-600 border border-blue-600 dark:border-blue-400" />
         <span className="text-gray-600 dark:text-gray-400">Default</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500 border border-yellow-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500 border border-yellow-600" />
         <span className="text-gray-600 dark:text-gray-400">Compare</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-red-500 border border-red-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-red-500 border border-red-600" />
         <span className="text-gray-600 dark:text-gray-400">Swap</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-green-500 border border-green-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-green-500 border border-green-600" />
         <span className="text-gray-600 dark:text-gray-400">Sorted</span>
       </div>
     </>

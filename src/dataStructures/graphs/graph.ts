@@ -14,14 +14,14 @@ export class Graph {
   }
 
   addNode(id: string, value: string | number, x: number, y: number): void {
-    if (this.nodes.has(id)) return;
-    
+    if (this.nodes.has(id)) {return;}
+
     this.nodes.set(id, { id, value, x, y });
     this.adjacencyList.set(id, []);
   }
 
   removeNode(id: string): void {
-    if (!this.nodes.has(id)) return;
+    if (!this.nodes.has(id)) {return;}
 
     this.nodes.delete(id);
     this.adjacencyList.delete(id);
@@ -30,18 +30,18 @@ export class Graph {
     this.adjacencyList.forEach((edges, nodeId) => {
       this.adjacencyList.set(
         nodeId,
-        edges.filter((edge) => edge.target !== id)
+        edges.filter((edge) => edge.target !== id),
       );
     });
   }
 
   addEdge(source: string, target: string, weight: number = 1): void {
-    if (!this.nodes.has(source) || !this.nodes.has(target)) return;
+    if (!this.nodes.has(source) || !this.nodes.has(target)) {return;}
 
     const sourceEdges = this.adjacencyList.get(source) || [];
-    
+
     // Check if edge already exists
-    if (sourceEdges.some(e => e.target === target)) return;
+    if (sourceEdges.some(e => e.target === target)) {return;}
 
     sourceEdges.push({ source, target, weight });
     this.adjacencyList.set(source, sourceEdges);
@@ -58,7 +58,7 @@ export class Graph {
     if (sourceEdges) {
       this.adjacencyList.set(
         source,
-        sourceEdges.filter((edge) => edge.target !== target)
+        sourceEdges.filter((edge) => edge.target !== target),
       );
     }
 
@@ -67,7 +67,7 @@ export class Graph {
       if (targetEdges) {
         this.adjacencyList.set(
           target,
-          targetEdges.filter((edge) => edge.target !== source)
+          targetEdges.filter((edge) => edge.target !== source),
         );
       }
     }

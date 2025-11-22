@@ -55,15 +55,15 @@ const StackVisualizer: React.FC<StackVisualizerProps> = ({
   const legend = (
     <>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-gray-700 dark:bg-gray-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-gray-700 dark:bg-gray-600" />
         <span className="text-gray-600 dark:text-gray-400">Normal</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
         <span className="text-gray-600 dark:text-gray-400">Push</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
         <span className="text-gray-600 dark:text-gray-400">Pop</span>
       </div>
     </>

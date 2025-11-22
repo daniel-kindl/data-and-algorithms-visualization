@@ -34,44 +34,44 @@ export default function GraphVisualizer({
   const { theme } = useTheme();
 
   const getNodeColor = (nodeId: string) => {
-    if (activeNodes.includes(nodeId)) return theme === 'dark' ? '#10B981' : '#34D399'; // Emerald
-    if (pathNodes.includes(nodeId)) return theme === 'dark' ? '#06B6D4' : '#22D3EE'; // Cyan
-    if (visitedNodes.includes(nodeId)) return theme === 'dark' ? '#7C3AED' : '#8B5CF6'; // Purple
-    if (comparedNodes.includes(nodeId)) return theme === 'dark' ? '#F59E0B' : '#FBBF24'; // Amber
+    if (activeNodes.includes(nodeId)) {return theme === 'dark' ? '#10B981' : '#34D399';} // Emerald
+    if (pathNodes.includes(nodeId)) {return theme === 'dark' ? '#06B6D4' : '#22D3EE';} // Cyan
+    if (visitedNodes.includes(nodeId)) {return theme === 'dark' ? '#7C3AED' : '#8B5CF6';} // Purple
+    if (comparedNodes.includes(nodeId)) {return theme === 'dark' ? '#F59E0B' : '#FBBF24';} // Amber
     return theme === 'dark' ? '#1F2937' : '#FFFFFF'; // Default
   };
 
   const getNodeStroke = (nodeId: string) => {
-    if (activeNodes.includes(nodeId)) return '#059669';
-    if (pathNodes.includes(nodeId)) return '#0891B2';
-    if (visitedNodes.includes(nodeId)) return '#7C3AED';
-    if (comparedNodes.includes(nodeId)) return '#D97706';
+    if (activeNodes.includes(nodeId)) {return '#059669';}
+    if (pathNodes.includes(nodeId)) {return '#0891B2';}
+    if (visitedNodes.includes(nodeId)) {return '#7C3AED';}
+    if (comparedNodes.includes(nodeId)) {return '#D97706';}
     return theme === 'dark' ? '#4B5563' : '#374151';
   };
 
   // Helper to determine edge color based on traversal state.
   // If both source and target are visited/path nodes, the edge is considered traversed.
   const getEdgeColor = (source: string, target: string) => {
-    const isTraversed = 
+    const isTraversed =
       (visitedNodes.includes(source) && visitedNodes.includes(target)) ||
       (pathNodes.includes(source) && pathNodes.includes(target));
-    
-    if (isTraversed) return theme === 'dark' ? '#6B7280' : '#9CA3AF'; // Gray
+
+    if (isTraversed) {return theme === 'dark' ? '#6B7280' : '#9CA3AF';} // Gray
     return theme === 'dark' ? '#374151' : '#E5E7EB'; // Light gray
   };
 
   const legend = (
     <>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-white border border-gray-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-white border border-gray-600" />
         <span className="text-gray-600 dark:text-gray-400">Unvisited</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-600" />
         <span className="text-gray-600 dark:text-gray-400">Active</span>
       </div>
       <div className="flex items-center gap-1">
-        <span className="w-2.5 h-2.5 rounded-full bg-purple-400 border border-purple-600"></span>
+        <span className="w-2.5 h-2.5 rounded-full bg-purple-400 border border-purple-600" />
         <span className="text-gray-600 dark:text-gray-400">Visited</span>
       </div>
     </>
@@ -95,10 +95,10 @@ export default function GraphVisualizer({
       <div className="flex-1 w-full h-[40vh] min-h-[300px] bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-100 dark:border-gray-800 relative overflow-hidden">
         {/* SVG uses a dynamic viewBox to scale the graph content to fit the container.
             preserveAspectRatio ensures the graph doesn't get distorted. */}
-        <svg 
-          ref={svgRef} 
-          width="100%" 
-          height="100%" 
+        <svg
+          ref={svgRef}
+          width="100%"
+          height="100%"
           viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
           preserveAspectRatio="xMidYMid meet"
           className="absolute inset-0"
@@ -108,10 +108,10 @@ export default function GraphVisualizer({
             edges.map((edge, idx) => {
               const sourceNode = graph.nodes.get(sourceId);
               const targetNode = graph.nodes.get(edge.target);
-              if (!sourceNode || !targetNode) return null;
+              if (!sourceNode || !targetNode) {return null;}
 
               // Avoid drawing duplicate edges for undirected graphs
-              if (!graph.isDirected && sourceId > edge.target) return null;
+              if (!graph.isDirected && sourceId > edge.target) {return null;}
 
               const midX = (sourceNode.x + targetNode.x) / 2;
               const midY = (sourceNode.y + targetNode.y) / 2;
@@ -128,12 +128,12 @@ export default function GraphVisualizer({
                   />
                   {edge.weight !== undefined && (
                     <g>
-                      <rect 
-                        x={midX - 10} 
-                        y={midY - 10} 
-                        width={20} 
-                        height={20} 
-                        fill={theme === 'dark' ? '#1F2937' : '#FFFFFF'} 
+                      <rect
+                        x={midX - 10}
+                        y={midY - 10}
+                        width={20}
+                        height={20}
+                        fill={theme === 'dark' ? '#1F2937' : '#FFFFFF'}
                         rx={4}
                       />
                       <text
@@ -150,7 +150,7 @@ export default function GraphVisualizer({
                   )}
                 </g>
               );
-            })
+            }),
           )}
 
           {/* Nodes */}
@@ -173,13 +173,13 @@ export default function GraphVisualizer({
               </text>
               {distances && distances[node.id] !== undefined && (
                 <g transform="translate(0, -32)">
-                  <rect 
-                    x="-16" 
-                    y="-12" 
-                    width="32" 
-                    height="16" 
-                    rx="4" 
-                    fill={theme === 'dark' ? '#374151' : '#E5E7EB'} 
+                  <rect
+                    x="-16"
+                    y="-12"
+                    width="32"
+                    height="16"
+                    rx="4"
+                    fill={theme === 'dark' ? '#374151' : '#E5E7EB'}
                     opacity="0.9"
                   />
                   <text
