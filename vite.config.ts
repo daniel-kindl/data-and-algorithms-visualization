@@ -4,6 +4,9 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  // TODO: Update this to your repository name if deploying to GitHub Pages
+  // e.g. base: '/my-repo-name/',
+  base: '/', 
   plugins: [react()],
   css: {
     postcss: './config/postcss.config.js',

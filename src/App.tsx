@@ -7,9 +7,14 @@ import DataStructuresPage from './pages/DataStructuresPage';
 import AdvancedStructuresPage from './pages/AdvancedStructuresPage';
 
 function App() {
+  // Get the base URL from Vite environment variables
+  // This handles the subpath deployment on GitHub Pages automatically
+  // if the "base" property is set correctly in vite.config.ts
+  const basename = import.meta.env.BASE_URL;
+
   return (
     <ThemeProvider>
-      <Router>
+      <Router basename={basename}>
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
