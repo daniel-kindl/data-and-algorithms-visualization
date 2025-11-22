@@ -4,224 +4,264 @@ import { motion } from 'framer-motion';
 const MotionLink = motion(Link);
 
 const Home = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
-    <div className="space-y-8">
-      <section className="text-center space-y-4">
+    <div className="space-y-16 pb-12">
+      {/* Hero Section */}
+      <section className="text-center space-y-6 py-12 md:py-20 relative overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent dark:from-blue-900/20 dark:via-transparent dark:to-transparent blur-3xl"></div>
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="inline-block mb-4 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-blue-600 dark:text-blue-300 text-sm font-medium"
+        >
+          🚀 Interactive Learning Platform
+        </motion.div>
+
         <motion.h1 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white"
         >
-          Algorithm & Data Structure Visualizer
+          Master Algorithms <br className="hidden md:block" />
+          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Visually & Intuitively
+          </span>
         </motion.h1>
+
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+          className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
         >
-          Interactive visualizations to help you understand algorithms and data structures through
-          step-by-step animations and code explanations.
+          Dive deep into the world of computer science with interactive visualizations.
+          Watch algorithms in action, experiment with data structures, and understand
+          complex concepts through step-by-step animations.
         </motion.p>
-      </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <MotionLink
-          to="/sorting"
-          whileHover={{ scale: 1.03, y: -5 }}
-          whileTap={{ scale: 0.98 }}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="group p-4 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors shadow-sm hover:shadow-lg"
+          transition={{ delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
         >
-          <div className="space-y-3">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-gray-900 dark:text-gray-100"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7h18M3 12h18M3 17h18" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <Link
+            to="/sorting"
+            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-blue-500/30 transition-all transform hover:-translate-y-1"
+          >
+            Start Exploring
+          </Link>
+          <a
+            href="#features"
+            className="px-8 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold rounded-xl border border-gray-200 dark:border-gray-700 transition-all"
+          >
+            Learn More
+          </a>
+        </motion.div>
+      </section>
+
+      {/* Categories Section */}
+      <motion.section 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        <MotionLink
+          to="/sorting"
+          variants={itemVariants}
+          whileHover={{ scale: 1.02, y: -5 }}
+          whileTap={{ scale: 0.98 }}
+          className="group relative overflow-hidden p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all shadow-sm hover:shadow-xl hover:shadow-blue-500/10"
+        >
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+            <svg className="w-24 h-24 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 7h18M3 12h18M3 17h18" />
+            </svg>
+          </div>
+          
+          <div className="relative z-10 space-y-4">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+              </svg>
+            </div>
+            
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 Sorting Algorithms
               </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Visualize how different algorithms sort data. Compare efficiency and understand the mechanics of Bubble, Quick, Merge Sort, and more.
+              </p>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Visualize popular sorting algorithms like Bubble Sort, Quick Sort, Merge Sort, and
-              more with step-by-step animations.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                Bubble Sort
-              </span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                Quick Sort
-              </span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                Merge Sort
-              </span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                +3 more
-              </span>
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              {['Bubble', 'Quick', 'Merge', 'Insertion', 'Selection', 'Heap'].map((tag) => (
+                <span key={tag} className="px-2 py-1 text-[10px] font-medium uppercase tracking-wider bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-md">
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </MotionLink>
 
         <MotionLink
           to="/data-structures"
-          whileHover={{ scale: 1.03, y: -5 }}
+          variants={itemVariants}
+          whileHover={{ scale: 1.02, y: -5 }}
           whileTap={{ scale: 0.98 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="group p-4 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-purple-500 dark:hover:border-purple-500 transition-colors shadow-sm hover:shadow-lg"
+          className="group relative overflow-hidden p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-purple-500/50 dark:hover:border-purple-500/50 transition-all shadow-sm hover:shadow-xl hover:shadow-purple-500/10"
         >
-          <div className="space-y-3">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-gray-900 dark:text-gray-100"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M3 12h18M3 18h18" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                Data Structures
-              </h2>
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+            <svg className="w-24 h-24 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 space-y-4">
+            <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Explore fundamental linear data structures including arrays, stacks, queues, and
-              linked lists.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">Arrays</span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                Linked List
-              </span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                Stack & Queue
-              </span>
+            
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                Linear Structures
+              </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Explore the building blocks of data organization. Interact with Arrays, Linked Lists, Stacks, and Queues to see how they manage data.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              {['Arrays', 'Linked Lists', 'Stacks', 'Queues'].map((tag) => (
+                <span key={tag} className="px-2 py-1 text-[10px] font-medium uppercase tracking-wider bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-md">
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </MotionLink>
 
         <MotionLink
           to="/advanced-structures"
-          whileHover={{ scale: 1.03, y: -5 }}
+          variants={itemVariants}
+          whileHover={{ scale: 1.02, y: -5 }}
           whileTap={{ scale: 0.98 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="group p-4 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors shadow-sm hover:shadow-lg"
+          className="group relative overflow-hidden p-6 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all shadow-sm hover:shadow-xl hover:shadow-emerald-500/10"
         >
-          <div className="space-y-3">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-gray-900 dark:text-gray-100"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-semibold group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+            <svg className="w-24 h-24 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L2 22h20L12 2z" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 space-y-4">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-300">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 Advanced Structures
               </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Master complex hierarchical data structures. Visualize Trees, Heaps, and Hash Tables to understand efficient data storage and retrieval.
+              </p>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Master complex data structures like binary trees, BST, heaps, and hash tables.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                Binary Tree
-              </span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">BST</span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">Heap</span>
-              <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
-                Hash Table
-              </span>
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              {['Binary Trees', 'BST', 'Heaps', 'Hash Tables'].map((tag) => (
+                <span key={tag} className="px-2 py-1 text-[10px] font-medium uppercase tracking-wider bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-md">
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </MotionLink>
-      </section>
+      </motion.section>
 
-      <section className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Features</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="space-y-2"
-          >
-            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-gray-900 dark:text-gray-100"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 3l14 9-14 9V3z" />
-              </svg>
-            </div>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100">Step-by-Step Control</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Play, pause, and step through algorithms at your own pace with speed controls.
-            </p>
-          </motion.div>
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="space-y-2"
-          >
-            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-gray-900 dark:text-gray-100"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l-3 3 3 3m8-6l3 3-3 3" />
-              </svg>
-            </div>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100">Code Visualization</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              See the actual code with syntax highlighting and line-by-line execution tracking.
-            </p>
-          </motion.div>
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="space-y-2"
-          >
-            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-gray-900 dark:text-gray-100"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13h4v8H3v-8zm7-6h4v14h-4V7zm7-4h4v18h-4V3z" />
-              </svg>
-            </div>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100">Complexity Analysis</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Understand time and space complexity with Big O notation for each algorithm.
-            </p>
-          </motion.div>
+      {/* Features Section */}
+      <section id="features" className="py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Why Use This Visualizer?</h2>
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Designed to bridge the gap between theoretical concepts and practical understanding through interactive learning.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              title: "Step-by-Step Execution",
+              desc: "Control the flow of algorithms. Pause, rewind, and step through each operation to see exactly what happens at every stage.",
+              icon: (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              ),
+              color: "text-blue-500"
+            },
+            {
+              title: "Real-time Code Tracking",
+              desc: "Watch the code execute line by line. The visualizer highlights the active line of code corresponding to the current animation step.",
+              icon: (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              ),
+              color: "text-purple-500"
+            },
+            {
+              title: "Complexity Analysis",
+              desc: "Learn about Time and Space complexity. Each algorithm comes with detailed Big O notation analysis for best, average, and worst cases.",
+              icon: (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              ),
+              color: "text-emerald-500"
+            }
+          ].map((feature, idx) => (
+            <motion.div 
+              key={idx}
+              whileHover={{ y: -5 }}
+              className="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"
+            >
+              <div className={`w-12 h-12 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center mb-4 ${feature.color}`}>
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  {feature.icon}
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{feature.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                {feature.desc}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </section>
     </div>
