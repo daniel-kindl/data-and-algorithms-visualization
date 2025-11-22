@@ -10,6 +10,7 @@ interface HashTableVisualizerProps {
   comparedIndices?: number[];
   activeIndices?: number[];
   title?: string;
+  explanation?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -20,6 +21,7 @@ export default function HashTableVisualizer({
   comparedIndices = [],
   activeIndices = [],
   title,
+  explanation,
   children,
 }: HashTableVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -80,6 +82,7 @@ export default function HashTableVisualizer({
       title={title}
       icon={icon}
       legend={legend}
+      explanation={explanation}
       footer={children}
       minHeight="500px"
     >

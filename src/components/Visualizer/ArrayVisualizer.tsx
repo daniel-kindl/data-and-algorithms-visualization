@@ -15,6 +15,7 @@ interface ArrayVisualizerProps {
     | 'highlight'
     | 'minimum';
   description?: string;
+  explanation?: React.ReactNode;
   title?: string;
   children?: React.ReactNode;
 }
@@ -25,6 +26,7 @@ const ArrayVisualizer = ({
   highlightIndices = [],
   highlightType = 'active',
   description,
+  explanation,
   title,
   children,
 }: ArrayVisualizerProps) => {
@@ -100,6 +102,7 @@ const ArrayVisualizer = ({
       icon={icon}
       legend={legend}
       footer={children}
+      explanation={explanation}
       minHeight="300px"
     >
       <div className="flex-1 flex flex-col w-full">

@@ -10,6 +10,7 @@ interface TreeVisualizerProps {
   comparedNodes?: string[];
   activeNodes?: string[];
   title?: string;
+  explanation?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -20,6 +21,7 @@ export default function TreeVisualizer({
   comparedNodes = [],
   activeNodes = [],
   title,
+  explanation,
   children,
 }: TreeVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -95,6 +97,7 @@ export default function TreeVisualizer({
       title={title}
       icon={icon}
       legend={legend}
+      explanation={explanation}
       footer={children}
     >
       <div className="flex-1 flex flex-col items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-100 dark:border-gray-800 relative h-full">

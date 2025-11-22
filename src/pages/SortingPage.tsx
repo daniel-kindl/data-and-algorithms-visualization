@@ -284,6 +284,25 @@ const SortingPage = () => {
           states={barStates}
           description={currentDescription || 'Generate data and select an algorithm to begin'}
           title="Visualization"
+          explanation={
+            <div className="space-y-2">
+              <p>{selectedAlgorithm.info.description}</p>
+              <div className="grid grid-cols-2 gap-4 mt-2 text-xs">
+                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                  <span className="font-semibold block mb-1">Time Complexity:</span>
+                  <div className="grid grid-cols-2 gap-1">
+                    <span>Best:</span> <span className="font-mono">{selectedAlgorithm.info.complexity.time.best}</span>
+                    <span>Average:</span> <span className="font-mono">{selectedAlgorithm.info.complexity.time.average}</span>
+                    <span>Worst:</span> <span className="font-mono">{selectedAlgorithm.info.complexity.time.worst}</span>
+                  </div>
+                </div>
+                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                  <span className="font-semibold block mb-1">Space Complexity:</span>
+                  <span className="font-mono">{selectedAlgorithm.info.complexity.space}</span>
+                </div>
+              </div>
+            </div>
+          }
         >
           <ControlPanel
             isPlaying={isPlaying}

@@ -8,6 +8,7 @@ interface HeapVisualizerProps {
   comparedIndices?: number[];
   activeIndices?: number[];
   title?: string;
+  explanation?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -17,6 +18,7 @@ export default function HeapVisualizer({
   comparedIndices = [],
   activeIndices = [],
   title,
+  explanation,
   children,
 }: HeapVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -86,6 +88,7 @@ export default function HeapVisualizer({
       title={title}
       icon={icon}
       legend={legend}
+      explanation={explanation}
       footer={children}
     >
       <div className="flex-1 flex flex-col items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-800/30 rounded-xl border border-gray-100 dark:border-gray-800 relative h-full">

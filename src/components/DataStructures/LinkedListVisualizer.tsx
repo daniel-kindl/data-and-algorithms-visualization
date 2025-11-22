@@ -16,6 +16,7 @@ interface LinkedListVisualizerProps {
     | 'search'
     | 'highlight';
   title?: string;
+  explanation?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -25,6 +26,7 @@ const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({
   highlightIndices = [],
   highlightType = 'active',
   title,
+  explanation,
   children,
 }) => {
   const getNodeColor = (index: number) => {
@@ -103,6 +105,7 @@ const LinkedListVisualizer: React.FC<LinkedListVisualizerProps> = ({
       icon={icon}
       legend={legend}
       footer={children}
+      explanation={explanation}
       minHeight="300px"
     >
       <div className="flex flex-col items-center space-y-4 flex-1">

@@ -15,6 +15,7 @@ interface QueueVisualizerProps {
     | 'highlight';
   capacity?: number;
   title?: string;
+  explanation?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -24,6 +25,7 @@ const QueueVisualizer: React.FC<QueueVisualizerProps> = ({
   highlightType = 'active',
   capacity,
   title,
+  explanation,
   children,
 }) => {
   const maxValue = Math.max(...data, 100);
@@ -87,6 +89,7 @@ const QueueVisualizer: React.FC<QueueVisualizerProps> = ({
       icon={icon}
       legend={legend}
       footer={children}
+      explanation={explanation}
       minHeight="300px"
     >
       <div className="flex flex-col items-center space-y-4 flex-1">

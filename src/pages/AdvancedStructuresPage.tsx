@@ -49,6 +49,45 @@ import { generateRandomArray } from '../utils/helpers';
 
 type StructureType = 'binaryTree' | 'bst' | 'heap' | 'hashTable';
 
+const structureInfo = {
+  binaryTree: {
+    description: "A Binary Tree is a hierarchical data structure where each node has at most two children, referred to as the left child and the right child.",
+    characteristics: [
+      "Hierarchical structure",
+      "Max 2 children per node",
+      "Used in expression parsers",
+      "Basis for BST and Heaps"
+    ]
+  },
+  bst: {
+    description: "A Binary Search Tree (BST) is a binary tree where the left child contains only nodes with values less than the parent, and the right child only nodes with values greater than the parent.",
+    characteristics: [
+      "Ordered structure",
+      "Search: O(log n) average",
+      "Insert/Delete: O(log n)",
+      "In-order traversal yields sorted list"
+    ]
+  },
+  heap: {
+    description: "A Heap is a specialized tree-based data structure that satisfies the heap property. In a Min Heap, the parent is always smaller than its children.",
+    characteristics: [
+      "Complete Binary Tree",
+      "Min/Max access: O(1)",
+      "Insert/Extract: O(log n)",
+      "Used in Priority Queues"
+    ]
+  },
+  hashTable: {
+    description: "A Hash Table implements an associative array abstract data type, a structure that can map keys to values using a hash function.",
+    characteristics: [
+      "Key-Value pairs",
+      "Average Access: O(1)",
+      "Handles collisions",
+      "Dynamic resizing"
+    ]
+  }
+};
+
 export default function AdvancedStructuresPage() {
   const [selectedStructure, setSelectedStructure] = useState<StructureType>('binaryTree');
   const [selectedOperation, setSelectedOperation] = useState('insert');
@@ -535,6 +574,23 @@ export default function AdvancedStructuresPage() {
       </div>
     ) : null;
 
+    const explanationElement = (
+      <div className="space-y-2">
+        <p>{structureInfo[selectedStructure].description}</p>
+        <div className="mt-2">
+          <span className="font-semibold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Key Characteristics</span>
+          <ul className="mt-1 grid grid-cols-2 gap-2">
+            {structureInfo[selectedStructure].characteristics.map((char, idx) => (
+              <li key={idx} className="text-xs flex items-center gap-1.5 text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded border border-gray-100 dark:border-gray-700">
+                <div className="w-1 h-1 rounded-full bg-purple-500"></div>
+                {char}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+
     if (selectedStructure === 'binaryTree' || selectedStructure === 'bst') {
       return (
         <TreeVisualizer
@@ -544,6 +600,7 @@ export default function AdvancedStructuresPage() {
           comparedNodes={comparedNodes}
           activeNodes={activeNodes}
           title="Visualization"
+          explanation={explanationElement}
         >
           {descriptionElement}
           {controls}
@@ -557,6 +614,7 @@ export default function AdvancedStructuresPage() {
           comparedIndices={comparedIndices}
           activeIndices={activeIndices}
           title="Visualization"
+          explanation={explanationElement}
         >
           {descriptionElement}
           {controls}
@@ -571,6 +629,7 @@ export default function AdvancedStructuresPage() {
           comparedIndices={comparedIndices}
           activeIndices={activeIndices}
           title="Visualization"
+          explanation={explanationElement}
         >
           {descriptionElement}
           {controls}
