@@ -3,6 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Interactive web application for visualizing algorithms and data structures with step-by-step animations",
+  "homepage": "https://github.com/daniel-kindl/data-and-algorithms-visualization",
+  "keywords": [
+    "visualization",
+    "algorithms",
+    "data-structures",
+    "typescript",
+    "vite"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daniel-kindl/data-and-algorithms-visualization.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
